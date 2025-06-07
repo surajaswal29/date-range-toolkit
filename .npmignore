@@ -1,0 +1,53 @@
+# Source
+src/
+tests/
+__tests__/
+coverage/
+.nyc_output/
+
+# Configuration files
+.eslintrc*
+.prettierrc*
+.editorconfig
+tsconfig.json
+jest.config.js
+.travis.yml
+.github/
+.vscode/
+.idea/
+
+# Documentation and examples
+docs/
+examples/
+*.md
+!README.md
+
+# Development artifacts
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+.DS_Store
+.env
+.env.*
+
+# Git related
+.git/
+.gitignore
+.gitattributes
+
+# Build process
+node_modules/
+tmp/
+temp/
+*.tgz
+
+# CI/CD
+.circleci/
+.github/
+.gitlab-ci.yml
+
+# Test files
+*.spec.*
+*.test.*
+test/ 

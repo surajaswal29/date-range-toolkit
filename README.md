@@ -1,34 +1,84 @@
-# use-custom-dates
+# date-range-toolkit
 
-[![JavaScript](https://img.shields.io/badge/Language-JavaScript-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com) [![Version](https://img.shields.io/badge/Version-1.0.0-blue)](https://github.com/surajaswal29/custom-dates/releases) [![License](https://img.shields.io/badge/License-ISC-green)](https://opensource.org/licenses/ISC) [![Downloads](https://img.shields.io/github/downloads/surajaswal29/custom-dates/latest/total.svg)](https://github.com/surajaswal29/custom-dates/releases) [![Contributors](https://img.shields.io/github/contributors/surajaswal29/custom-dates.svg)](https://github.com/surajaswal29/custom-dates/graphs/contributors) [![GitHub Issues](https://img.shields.io/github/issues/surajaswal29/custom-dates.svg)](https://github.com/surajaswal29/custom-dates/issues)
+[![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue)](https://www.typescriptlang.org/) [![JavaScript](https://img.shields.io/badge/Language-JavaScript-yellow)](https://developer.mozilla.org/en-US/docs/Web/JavaScript) [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](http://makeapullrequest.com) [![Version](https://img.shields.io/badge/Version-1.0.0-blue)](https://github.com/surajaswal29/date-range-toolkit/releases) [![License](https://img.shields.io/badge/License-ISC-green)](https://opensource.org/licenses/ISC) [![Downloads](https://img.shields.io/github/downloads/surajaswal29/date-range-toolkit/latest/total.svg)](https://github.com/surajaswal29/date-range-toolkit/releases) [![Contributors](https://img.shields.io/github/contributors/surajaswal29/date-range-toolkit.svg)](https://github.com/surajaswal29/date-range-toolkit/graphs/contributors) [![GitHub Issues](https://img.shields.io/github/issues/surajaswal29/date-range-toolkit.svg)](https://github.com/surajaswal29/date-range-toolkit/issues)
 
-This npm package, named "use-custom-dates", provides a utility function called `useCustomDates` that generates a customizable date range based on the current date. The function returns an object containing information about the current date, the previous year's date, and an array representing the labels for the last 7 days, including the day of the month and the corresponding month name.
+A comprehensive toolkit for handling date ranges, providing rich date metadata, calendar utilities, and customizable date range generation. Written in TypeScript for better type safety and developer experience.
 
 ## Key Features
 
-- Dynamic calculation of the current date, including day of the week, month, year, and leap year status.
-- Generation of a date range for the last 7 days, with customizable labels based on the day of the month and the corresponding month name.
-- Consideration of month lengths and leap years in the date calculations.
+- Dynamic calculation of the current date, including day of the week, month, year, and leap year status
+- Generation of a date range for the last 7 days, with customizable labels
+- Full TypeScript support with type definitions
+- Consideration of month lengths and leap years in date calculations
+- Robust handling of month transitions and year boundaries
 
 ## Installation
 
-```
-npm install use-custom-dates
+```bash
+npm install date-range-toolkit
 ```
 
 ## Usage
 
-```javascript
-const useCustomDates = require("use-custom-dates")
+### TypeScript
+```typescript
+import { getDateRange, DateRangeToolkitResult } from 'date-range-toolkit';
 
 // Get date-related information
-const dateInfo = await useCustomDates()
+const dateInfo: DateRangeToolkitResult = getDateRange();
 
 // Access properties from the returned object
-console.log(dateInfo)
+console.log(dateInfo);
 ```
 
-**Output**
+### JavaScript
+```javascript
+const { getDateRange } = require('date-range-toolkit');
+
+// Get date-related information
+const dateInfo = getDateRange();
+
+// Access properties from the returned object
+console.log(dateInfo);
+```
+
+## Return Type Structure
+
+```typescript
+interface DateRangeToolkitResult {
+  current: {
+    todayDate: string;      // Day of month with leading zero
+    weekDay: string;        // Day of week (e.g., "Monday")
+    month: string;          // Month with leading zero
+    year: number;          // Current year
+    date: string;          // Full date in UK format
+    monthName: string;     // Full month name
+    monthLength: number;   // Days in current month
+    isLeapYear: boolean;   // Leap year status
+  };
+  previous: {
+    year: number;         // Previous year
+    month: string;        // Previous month with leading zero
+    monthLength: number;  // Days in previous month
+    monthName: string;    // Previous month name
+  };
+  allMonths: Array<{      // Information about all months
+    month: string;
+    shortName: string;
+    numOfDays: number;
+    weeks: number;
+  }>;
+  last7days: {
+    from_date: number;    // Start of 7-day range
+    to_date: number;      // End of 7-day range
+    L7D: Array<{         // Last 7 days' labels
+      label: string;     // Format: "DD MonthName"
+    }>;
+  };
+}
+```
+
+## Example Output
 
 ```javascript
 {
@@ -42,79 +92,69 @@ console.log(dateInfo)
     monthLength: 31,
     isLeapYear: true
   },
-  previous: { year: 2023, month: 12, monthLength: 31, monthName: 'December' },
+  previous: {
+    year: 2023,
+    month: '12',
+    monthLength: 31,
+    monthName: 'December'
+  },
   allMonths: [
     { month: 'January', shortName: 'Jan', numOfDays: 31, weeks: 5 },
     { month: 'February', shortName: 'Feb', numOfDays: 29, weeks: 4 },
-    { month: 'March', shortName: 'Mar', numOfDays: 31, weeks: 5 },
-    { month: 'April', shortName: 'Apr', numOfDays: 30, weeks: 5 },
-    { month: 'May', shortName: 'May', numOfDays: 31, weeks: 5 },
-    { month: 'June', shortName: 'Jun', numOfDays: 30, weeks: 5 },
-    { month: 'July', shortName: 'Jul', numOfDays: 31, weeks: 5 },
-    { month: 'August', shortName: 'Aug', numOfDays: 31, weeks: 5 },
-    { month: 'September', shortName: 'Sep', numOfDays: 30, weeks: 5 },
-    { month: 'October', shortName: 'Oct', numOfDays: 31, weeks: 5 },
-    { month: 'November', shortName: 'Nov', numOfDays: 30, weeks: 5 },
-    { month: 'December', shortName: 'Dec', numOfDays: 31, weeks: 5 }
+    // ... other months
   ],
   last7days: {
     from_date: 1,
     to_date: 7,
     L7D: [
-        { label: '1 January' },
-        { label: '2 January' },
-        { label: '3 January' },
-        { label: '4 January' },
-        { label: '5 January' },
-        { label: '6 January' },
-        { label: '7 January' }
+      { label: '1 January' },
+      { label: '2 January' },
+      { label: '3 January' },
+      { label: '4 January' },
+      { label: '5 January' },
+      { label: '6 January' },
+      { label: '7 January' }
     ]
   }
 }
 ```
 
-## Returned Object Properties
+## Development
 
-**current**
-
-- **todayDate:** Day of the month with leading zero.
-- **weekDay:** Day of the week (e.g., "Monday").
-- **month:** Month with leading zero.
-- **year:** Current year.
-- **date:** Full date string in UK format.
-- **monthName:** Full name of the current month.
-- **monthLength:** Number of days in the current month.
-- **isLeapYear:** Leap year status for the current year.
-
-**previous**
-
-- **year:** Previous year.
-- **month:** Previous month with leading zero.
-- **monthLength:** Number of days in the previous month.
-- **monthName:** Full name of the previous month.
-
-**allMonths:** Array containing information about all months.
-
-**last7days**
-
-- **from_date:** Start date of the last 7 days' range.
-- **to_date:** End date of the last 7 days' range.
-- **L7D:** Array of objects representing the last 7 days' date range labels. Each object has a label property containing the day of the month and the corresponding month name.
-
-## Examples
-
-```javascript
-// Example 1: Accessing current date information
-console.log(dateInfo.current.todayDate)
-console.log(dateInfo.current.weekDay)
-
-// Example 2: Accessing last 7 days' date range labels
-console.log(dateInfo.last7days.L7D)
+### Setup
+```bash
+git clone https://github.com/surajaswal29/date-range-toolkit.git
+cd date-range-toolkit
+npm install
 ```
+
+### Build
+```bash
+npm run build
+```
+
+### Test
+```bash
+npm test
+```
+
+### Lint
+```bash
+npm run lint
+```
+
+### Format Code
+```bash
+npm run format
+```
+
+## Contributing
+
+Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
 
 ## License
 
-This project is licensed under the ISC License - see the LICENSE.md file for details.
+This project is licensed under the ISC License - see the LICENSE file for details.
 
 ## Author
 
@@ -122,4 +162,4 @@ This project is licensed under the ISC License - see the LICENSE.md file for det
 
 ## Repository
 
-[GitHub Repository](https://github.com/surajaswal29/custom-dates)
+[GitHub Repository](https://github.com/surajaswal29/date-range-toolkit)
