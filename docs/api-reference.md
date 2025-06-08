@@ -4,32 +4,12 @@ This page provides detailed documentation for all the APIs available in Date Ran
 
 ## Table of Contents
 
-- [Installation](#installation)
-- [Basic Usage](#basic-usage)
 - [Core Concepts](#core-concepts)
 - [API Methods](#api-methods)
-
-## Installation
-
-```typescript
-// Using npm
-npm install date-range-toolkit
-
-// Using yarn
-yarn add date-range-toolkit
-
-// Using pnpm
-pnpm add date-range-toolkit
-```
-
-## Basic Usage
-
-```typescript
-import { DateRangeToolkit } from 'date-range-toolkit';
-
-// Create a new instance
-const dateRange = new DateRangeToolkit();
-```
+- [Type Definitions](#type-definitions)
+- [Error Handling](#error-handling)
+- [Best Practices](#best-practices)
+- [Browser Support](#browser-support)
 
 ## Core Concepts
 

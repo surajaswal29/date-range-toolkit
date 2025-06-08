@@ -232,4 +232,4 @@ export default defineComponent({
 </script>
 ```
 
-These examples demonstrate common use cases and patterns when working with Date Range Toolkit. For more specific examples or advanced usage, please refer to the [API Reference](API-Reference.md) or open an issue on GitHub.
+For more specific examples or advanced usage, please refer to the [API Reference](./api-reference.md) or open an issue on GitHub.
