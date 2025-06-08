@@ -1,129 +1,50 @@
-# Contributing to date-range-toolkit
+# Contributing to Date Range Toolkit
 
-First off, thank you for considering contributing to date-range-toolkit! It's people like you that make date-range-toolkit such a great tool.
+We love your input! We want to make contributing to Date Range Toolkit as easy and transparent as possible, whether it's:
 
-## Code of Conduct
-
-By participating in this project, you are expected to uphold our [Code of Conduct](CODE_OF_CONDUCT.md).
-
-## How Can I Contribute?
-
-### Reporting Bugs
-
-Before creating bug reports, please check the existing issues as you might find out that you don't need to create one. When you are creating a bug report, please include as many details as possible:
-
-- Use a clear and descriptive title
-- Describe the exact steps which reproduce the problem
-- Provide specific examples to demonstrate the steps
-- Describe the behavior you observed after following the steps
-- Explain which behavior you expected to see instead and why
-- Include code samples and error messages if applicable
-
-### Suggesting Enhancements
-
-Enhancement suggestions are tracked as GitHub issues. When creating an enhancement suggestion, please include:
-
-- Use a clear and descriptive title
-- Provide a step-by-step description of the suggested enhancement
-- Provide specific examples to demonstrate the steps
-- Describe the current behavior and explain which behavior you expected to see instead
-- Explain why this enhancement would be useful
-
-### Pull Requests
-
-- Fork the repo and create your branch from `main`
-- If you've added code that should be tested, add tests
-- Ensure the test suite passes
-- Make sure your code lints
-- Update the documentation
+- Reporting a bug
+- Discussing the current state of the code
+- Submitting a fix
+- Proposing new features
+- Becoming a maintainer
 
 ## Development Process
 
-1. Clone the repository
+We use GitHub to host code, to track issues and feature requests, as well as accept pull requests.
 
-```bash
-git clone https://github.com/surajaswal29/date-range-toolkit.git
-cd date-range-toolkit
-```
+1. Fork the repo and create your branch from `main`.
+2. If you've added code that should be tested, add tests.
+3. If you've changed APIs, update the documentation.
+4. Ensure the test suite passes.
+5. Make sure your code lints.
+6. Issue that pull request!
 
-2. Install dependencies
+## Pull Request Process
 
-```bash
-npm install
-```
+1. Update the README.md with details of changes to the interface, if applicable.
+2. Update the package version following [Semantic Versioning](https://semver.org/).
+3. The PR will be merged once you have the sign-off of at least one maintainer.
 
-3. Create a branch
+## Any contributions you make will be under the MIT Software License
 
-```bash
-git checkout -b feature/your-feature-name
-```
+In short, when you submit code changes, your submissions are understood to be under the same [MIT License](http://choosealicense.com/licenses/mit/) that covers the project. Feel free to contact the maintainers if that's a concern.
 
-4. Make your changes and ensure they follow our coding standards:
+## Report bugs using GitHub's [issue tracker](../../issues)
 
-- Write clear, readable code
-- Follow TypeScript best practices
-- Add appropriate comments and documentation
-- Update tests as needed
+We use GitHub issues to track public bugs. Report a bug by [opening a new issue](../../issues/new/choose).
 
-5. Run tests and linting
+## Write bug reports with detail, background, and sample code
 
-```bash
-npm run test
-npm run lint
-```
+**Great Bug Reports** tend to have:
 
-6. Commit your changes
+- A quick summary and/or background
+- Steps to reproduce
+  - Be specific!
+  - Give sample code if you can.
+- What you expected would happen
+- What actually happens
+- Notes (possibly including why you think this might be happening, or stuff you tried that didn't work)
 
-```bash
-git add .
-git commit -m "feat: add your feature description"
-```
+## License
 
-We follow [Conventional Commits](https://www.conventionalcommits.org/) for commit messages.
-
-7. Push to your fork and submit a pull request
-
-```bash
-git push origin feature/your-feature-name
-```
-
-## Style Guide
-
-### Git Commit Messages
-
-- Use the present tense ("add feature" not "added feature")
-- Use the imperative mood ("move cursor to..." not "moves cursor to...")
-- Limit the first line to 72 characters or less
-- Reference issues and pull requests liberally after the first line
-
-### TypeScript Style Guide
-
-- Use 2 spaces for indentation
-- Use camelCase for variables and functions
-- Use PascalCase for classes and interfaces
-- Use meaningful variable names
-- Add TypeScript types where possible
-- Document public APIs using JSDoc comments
-
-### Testing
-
-- Write unit tests for new features
-- Ensure all tests pass before submitting a pull request
-- Aim for high test coverage
-- Write both positive and negative test cases
-
-## Additional Notes
-
-### Issue and Pull Request Labels
-
-- `bug`: Something isn't working
-- `enhancement`: New feature or request
-- `documentation`: Improvements or additions to documentation
-- `good first issue`: Good for newcomers
-- `help wanted`: Extra attention is needed
-
-## Questions?
-
-Feel free to open an issue with your question or contact the maintainers directly.
-
-Thank you for contributing to date-range-toolkit!
+By contributing, you agree that your contributions will be licensed under its MIT License.

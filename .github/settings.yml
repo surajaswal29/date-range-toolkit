@@ -1,0 +1,76 @@
+repository:
+  # The name of the repository
+  name: date-range-toolkit
+
+  # A short description of the repository
+  description: A powerful and flexible date range manipulation toolkit for JavaScript/TypeScript applications
+
+  # A URL with more information about the repository
+  homepage: https://github.com/surajaswal29/date-range-toolkit
+
+  # Topics to categorize your repository
+  topics:
+    - date-range
+    - date-picker
+    - typescript
+    - javascript
+    - date-manipulation
+    - date-utils
+    - calendar
+    - time-range
+
+  # Either `true` to enable issues for this repository, `false` to disable them.
+  has_issues: true
+
+  # Either `true` to enable projects for this repository, `false` to disable them.
+  has_projects: true
+
+  # Either `true` to enable the wiki for this repository, `false` to disable it.
+  has_wiki: true
+
+  # Either `true` to enable downloads for this repository, `false` to disable them.
+  has_downloads: true
+
+  # Updates the default branch for this repository.
+  default_branch: main
+
+  # Either `true` to allow squash-merging pull requests, or `false` to prevent
+  # squash-merging.
+  allow_squash_merge: true
+
+  # Either `true` to allow merging pull requests with a merge commit, or `false`
+  # to prevent merging pull requests with merge commits.
+  allow_merge_commit: true
+
+  # Either `true` to allow rebase-merging pull requests, or `false` to prevent
+  # rebase-merging.
+  allow_rebase_merge: true
+
+  # Either `true` to enable automatic deletion of branches on merge, or `false` to disable
+  delete_branch_on_merge: true
+
+# Labels: define labels for Issues and Pull Requests
+labels:
+  - name: bug
+    color: "#d73a4a"
+    description: Something isn't working
+  - name: documentation
+    color: "#0075ca"
+    description: Improvements or additions to documentation
+  - name: enhancement
+    color: "#a2eeef"
+    description: New feature or request
+  - name: good first issue
+    color: "#7057ff"
+    description: Good for newcomers
+  - name: help wanted
+    color: "#008672"
+    description: Extra attention is needed
+  - name: question
+    color: "#d876e3"
+    description: Further information is requested
+# Collaborators: give specific users access to this repository.
+# Note: Remove this section if you don't want to specify collaborators
+# collaborators:
+#   - username: username
+#     permission: push
