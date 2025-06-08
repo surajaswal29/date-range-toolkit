@@ -1,4 +1,4 @@
-import { DateRangeToolkit } from "./DateRangeToolkit";
+import { DateRangeToolkit } from './DateRangeToolkit';
 
 /**
  * Create a new DateRangeToolkit instance

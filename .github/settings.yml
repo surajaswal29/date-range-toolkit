@@ -49,28 +49,48 @@ repository:
   # Either `true` to enable automatic deletion of branches on merge, or `false` to disable
   delete_branch_on_merge: true
 
+# Branch protection rules
+branches:
+  - name: main
+    protection:
+      # Require pull request reviews before merging
+      required_pull_request_reviews:
+        required_approving_review_count: 1
+        dismiss_stale_reviews: true
+        require_code_owner_reviews: true
+      # Require status checks to pass before merging
+      required_status_checks:
+        strict: true
+        contexts: ['build', 'test']
+      # Enforce all restrictions for administrators
+      enforce_admins: true
+      # Restrict who can push to the protected branch
+      restrictions:
+        users: ['surajaswal29']
+        teams: []
+
 # Labels: define labels for Issues and Pull Requests
 labels:
   - name: bug
-    color: "#d73a4a"
+    color: '#d73a4a'
     description: Something isn't working
   - name: documentation
-    color: "#0075ca"
+    color: '#0075ca'
     description: Improvements or additions to documentation
   - name: enhancement
-    color: "#a2eeef"
+    color: '#a2eeef'
     description: New feature or request
   - name: good first issue
-    color: "#7057ff"
+    color: '#7057ff'
     description: Good for newcomers
   - name: help wanted
-    color: "#008672"
+    color: '#008672'
     description: Extra attention is needed
   - name: question
-    color: "#d876e3"
+    color: '#d876e3'
     description: Further information is requested
 # Collaborators: give specific users access to this repository.
 # Note: Remove this section if you don't want to specify collaborators
-# collaborators:
-#   - username: username
-#     permission: push
+collaborators:
+  - username: surajaswal29
+    permission: push

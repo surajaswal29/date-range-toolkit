@@ -13,7 +13,9 @@ export const padZero = (num: number): string => {
  * @returns Boolean indicating if it's a leap year
  */
 export const isLeapYear = (year: number): boolean => {
-  return (year % 4 === 0 && year % 100 !== 0) || year % 400 === 0;
+  if (year % 400 === 0) return true;
+  if (year % 100 === 0) return false;
+  return year % 4 === 0;
 };
 
 /**
@@ -21,9 +23,7 @@ export const isLeapYear = (year: number): boolean => {
  * @param year - Year to check
  * @returns Number of days in February
  */
-export const getFebruaryDays = (): number => {
-  const year = new Date().getFullYear();
-
+export const getFebruaryDays = (year: number): number => {
   return isLeapYear(year) ? 29 : 28;
 };
 

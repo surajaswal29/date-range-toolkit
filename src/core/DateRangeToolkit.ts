@@ -1,9 +1,10 @@
-import { IDateInfo, IDateRange, IMonth, IWeek, IRangePreset } from "../types";
-import { MONTHS } from "../constants/months";
-import { WEEKS } from "../constants/weeks";
-import { CurrentDateService } from "../services/current-date-service";
-import { PreviousDateService } from "../services/previous-date-service";
-import { PresetDateRangeService } from "../services/preset-date-range-service";
+import { IDateInfo, IDateRange, IMonth, IWeek, IRangePreset } from '../types';
+import { getMonthsForYear } from '../constants/months';
+import { WEEKS } from '../constants/weeks';
+import { CurrentDateService } from '../services/current-date-service';
+import { PreviousDateService } from '../services/previous-date-service';
+import { PresetDateRangeService } from '../services/preset-date-range-service';
+import { isValidDate } from '../utils/dateValidator';
 
 /**
  * A toolkit for handling date ranges and date-related operations
@@ -28,16 +29,13 @@ export class DateRangeToolkit {
   constructor(date?: string | Date | number) {
     if (!date) {
       this.date = new Date();
-    } else if (date instanceof Date) {
-      this.date = new Date(date);
     } else {
-      const parsedDate = new Date(date);
-      if (isNaN(parsedDate.getTime())) {
-        throw new Error("Invalid date provided");
+      if (!isValidDate(date)) {
+        throw new Error('Invalid date provided');
       }
-      this.date = parsedDate;
+      this.date = new Date(date);
     }
-    this.presetService = new PresetDateRangeService();
+    this.presetService = new PresetDateRangeService(this.date);
     this.currentDateService = new CurrentDateService(this.date);
     this.previousDateService = new PreviousDateService(this.date);
   }
@@ -224,7 +222,7 @@ export class DateRangeToolkit {
    */
   public getLastYear(customLabel?: string): IDateRange {
     const startDate = new Date(this.date.getFullYear(), 0, 1);
-    return this.presetService.getCustomRange(startDate, this.date, customLabel || "Year to Date");
+    return this.presetService.getCustomRange(startDate, this.date, customLabel || 'Last Year');
   }
 
   /**
@@ -255,7 +253,13 @@ export class DateRangeToolkit {
    * }
    */
   public getCustomRange(startDate: Date, endDate: Date, customLabel?: string): IDateRange {
-    return this.presetService.getCustomRange(startDate, endDate, customLabel || "Custom Range");
+    if (!(startDate instanceof Date) || !(endDate instanceof Date)) {
+      throw new Error('Invalid date provided');
+    }
+    if (endDate < startDate) {
+      throw new Error('End date must be greater than or equal to start date');
+    }
+    return this.presetService.getCustomRange(startDate, endDate, customLabel || 'Custom Range');
   }
 
   /**
@@ -283,7 +287,7 @@ export class DateRangeToolkit {
    * ```
    */
   public getMonths(): IMonth[] {
-    return [...MONTHS];
+    return getMonthsForYear(this.date.getFullYear());
   }
 
   /**
@@ -295,7 +299,7 @@ export class DateRangeToolkit {
    * ```
    */
   public getMonthsLabels(): string[] {
-    return MONTHS.map((month) => month.name);
+    return this.getMonths().map((month: IMonth) => month.name);
   }
 
   /**
@@ -323,7 +327,7 @@ export class DateRangeToolkit {
    * ```
    */
   public getWeeksLabels(): string[] {
-    return WEEKS.map((week) => week.name);
+    return WEEKS.map(week => week.name);
   }
 
   /**

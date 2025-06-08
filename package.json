@@ -14,8 +14,13 @@
     "build": "tsup src/index.ts --format cjs,esm --dts",
     "test": "jest",
     "lint": "eslint src --ext .ts",
+    "lint:fix": "eslint src --ext .ts --fix",
+    "format": "prettier --write \"src/**/*.ts\"",
     "typecheck": "tsc --noEmit",
-    "prepublishOnly": "npm run lint && npm run test && npm run build"
+    "prepublishOnly": "npm run lint && npm run test && npm run build",
+    "size": "size-limit",
+    "prepare": "husky install",
+    "semantic-release": "semantic-release"
   },
   "keywords": [
     "date",
@@ -43,12 +48,23 @@
   "homepage": "https://github.com/surajaswal/date-range-toolkit#readme",
   "license": "MIT",
   "devDependencies": {
+    "@commitlint/config-conventional": "^19.8.1",
+    "@semantic-release/changelog": "^6.0.3",
+    "@semantic-release/git": "^10.0.1",
+    "@size-limit/preset-small-lib": "^11.0.0",
     "@types/jest": "^29.5.0",
     "@types/node": "^20.0.0",
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
+    "commitlint": "^19.8.1",
     "eslint": "^8.0.0",
+    "eslint-config-prettier": "^9.0.0",
+    "eslint-plugin-prettier": "^5.0.0",
+    "husky": "^9.1.7",
     "jest": "^29.5.0",
+    "prettier": "^3.0.0",
+    "semantic-release": "^23.0.0",
+    "size-limit": "^11.0.0",
     "ts-jest": "^29.1.0",
     "tsup": "^8.0.0",
     "typescript": "^5.0.0"

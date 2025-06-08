@@ -1,13 +1,12 @@
-import typescript from "@rollup/plugin-typescript";
-import resolve from "@rollup/plugin-node-resolve";
-import commonjs from "@rollup/plugin-commonjs";
-import terser from "@rollup/plugin-terser";
-import pkg from "./package.json";
+import typescript from '@rollup/plugin-typescript';
+import resolve from '@rollup/plugin-node-resolve';
+import commonjs from '@rollup/plugin-commonjs';
+import terser from '@rollup/plugin-terser';
+import pkg from './package.json';
 
-const input = "src/index.ts";
+const input = 'src/index.ts';
 const external = [...Object.keys(pkg.dependencies || {})];
 
-// Enhanced terser config for better minification
 const terserConfig = {
   compress: {
     pure_getters: true,
@@ -32,15 +31,15 @@ const config = [
     input,
     output: {
       file: pkg.module,
-      format: "esm",
+      format: 'esm',
       sourcemap: true,
     },
     external,
     plugins: [
       typescript({
-        tsconfig: "./tsconfig.json",
+        tsconfig: './tsconfig.json',
         declaration: true,
-        declarationDir: "./dist",
+        declarationDir: './dist',
       }),
       resolve(),
       commonjs(),
@@ -51,9 +50,9 @@ const config = [
   {
     input,
     output: {
-      name: "DateRangeToolkit",
+      name: 'DateRangeToolkit',
       file: pkg.browser,
-      format: "umd",
+      format: 'umd',
       sourcemap: true,
       compact: true,
     },
@@ -71,7 +70,7 @@ const config = [
     input,
     output: {
       file: pkg.main,
-      format: "cjs",
+      format: 'cjs',
       sourcemap: true,
       compact: true,
     },

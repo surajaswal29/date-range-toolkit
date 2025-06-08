@@ -26,7 +26,6 @@ export interface IDateInfo {
   firstDayOfMonth: Date;
   lastDayOfMonth: Date;
   isLeapYear: boolean;
-  weekNumber: number;
   totalWeeksInMonth: number;
 }
 
@@ -39,7 +38,7 @@ export interface IWeek {
 export interface IRangePreset {
   label: string;
   value: number;
-  unit: "day" | "week" | "month" | "year";
+  unit: 'day' | 'week' | 'month' | 'year';
 }
 
 export interface IDateRange {

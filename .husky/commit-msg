@@ -1,4 +1,6 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
-npx --no -- commitlint --edit ${1} 
+# Validate commit message using commitlint
+# $1 contains the path to temporary file that contains the commit message
+if ! npx --no -- commitlint --edit ${1}; then
+  echo "❌ Commit message validation failed. Please follow the conventional commit format."
+  exit 1
+fi

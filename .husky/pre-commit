@@ -1,4 +1,11 @@
 #!/usr/bin/env sh
 . "$(dirname -- "$0")/_/husky.sh"
 
-npx lint-staged 
+# Run lint-staged to check staged files
+echo "🔍 Running pre-commit checks..."
+if ! npx lint-staged; then
+  echo "❌ Pre-commit checks failed. Please fix the issues and try committing again."
+  exit 1
+fi
+
+echo "✅ Pre-commit checks passed!"

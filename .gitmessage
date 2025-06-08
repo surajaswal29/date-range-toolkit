@@ -1,0 +1,30 @@
+# <type>(<scope>): <subject>
+# Example: feat(auth): add login functionality
+#
+# Types:
+#   feat     - New feature
+#   fix      - Bug fix
+#   docs     - Documentation changes
+#   style    - Code style/formatting (no code change)
+#   refactor - Code refactoring
+#   perf     - Performance improvements
+#   test     - Adding/updating tests
+#   chore    - Maintenance tasks, dependencies
+#   revert   - Reverting changes
+#   ci       - CI/CD changes
+#   build    - Build system changes
+#
+# Rules:
+# 1. Type and subject are required
+# 2. Scope is optional
+# 3. Use imperative mood ("add" not "added")
+# 4. First line should be under 72 characters
+# 5. Describe "what" and "why", not "how"
+#
+# Body (optional): Explain the motivation for the change
+#
+# Footer (optional):
+# - BREAKING CHANGE: <description>
+# - Fixes #<issue number>
+#
+# For more details, see the commitlint.config.js file 

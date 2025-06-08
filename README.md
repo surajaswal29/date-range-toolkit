@@ -1,6 +1,7 @@
 # 📅 Date Range Toolkit
 
-[![npm version](https://img.shields.io/npm/v/date-range-toolkit.svg)](https://www.npmjs.com/package/date-range-toolkit)
+[![CI](https://github.com/surajaswal29/date-range-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/surajaswal29/date-range-toolkit/actions/workflows/ci.yml)
+[![npm version](https://badge.fury.io/js/date-range-toolkit.svg)](https://badge.fury.io/js/date-range-toolkit)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 [![npm downloads](https://img.shields.io/npm/dm/date-range-toolkit.svg)](https://www.npmjs.com/package/date-range-toolkit)
@@ -77,13 +78,13 @@ pnpm add date-range-toolkit
 ## 🚀 Quick Start
 
 ```typescript
-import { createDateRangeToolkit } from "date-range-toolkit";
+import { createDateRangeToolkit } from 'date-range-toolkit';
 
 // Create a toolkit instance
 const toolkit = createDateRangeToolkit();
 
 // Or create an instance with a specific base date
-const customToolkit = createDateRangeToolkit("2024-01-01");
+const customToolkit = createDateRangeToolkit('2024-01-01');
 
 // Get a preset range
 const last7Days = toolkit.getLast7Days();
@@ -91,7 +92,7 @@ console.log(last7Days);
 // Output: { startDate: Date, endDate: Date }
 
 // Create a custom range
-const customRange = toolkit.getCustomRange(new Date("2024-01-01"), new Date("2024-12-31"));
+const customRange = toolkit.getCustomRange(new Date('2024-01-01'), new Date('2024-12-31'));
 ```
 
 ## 📘 Usage Examples
@@ -99,7 +100,7 @@ const customRange = toolkit.getCustomRange(new Date("2024-01-01"), new Date("202
 ### Basic Usage
 
 ```typescript
-import { createDateRangeToolkit } from "date-range-toolkit";
+import { createDateRangeToolkit } from 'date-range-toolkit';
 
 const toolkit = createDateRangeToolkit();
 
@@ -116,11 +117,11 @@ const presets = toolkit.getPresets();
 ### Working with Different Base Dates
 
 ```typescript
-import { createDateRangeToolkit } from "date-range-toolkit";
+import { createDateRangeToolkit } from 'date-range-toolkit';
 
 // Create instances with different base dates
 const currentToolkit = createDateRangeToolkit(); // Uses current date
-const customToolkit = createDateRangeToolkit("2023-12-31"); // Uses end of 2023
+const customToolkit = createDateRangeToolkit('2023-12-31'); // Uses end of 2023
 const timestampToolkit = createDateRangeToolkit(1704067200000); // Uses timestamp
 
 // Compare ranges from different base dates
@@ -131,7 +132,7 @@ const customLast7Days = customToolkit.getLast7Days();
 ### Working with Labels
 
 ```typescript
-import { createDateRangeToolkit } from "date-range-toolkit";
+import { createDateRangeToolkit } from 'date-range-toolkit';
 
 const toolkit = createDateRangeToolkit();
 
@@ -149,7 +150,7 @@ const weeks = toolkit.getWeeks();
 ### Current Date Information
 
 ```typescript
-import { createDateRangeToolkit } from "date-range-toolkit";
+import { createDateRangeToolkit } from 'date-range-toolkit';
 
 const toolkit = createDateRangeToolkit();
 
@@ -202,7 +203,7 @@ function DateRangePicker() {
 ### Extending Functionality
 
 ```typescript
-import { DateRangeToolkit } from "date-range-toolkit";
+import { DateRangeToolkit } from 'date-range-toolkit';
 
 class CustomDateRangeToolkit extends DateRangeToolkit {
   // Add custom methods
@@ -290,22 +291,33 @@ interface ICurrentDateInfo {
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request. For major changes, please open an issue first to discuss what you would like to change.
-
-1. Fork the repository
-2. Create your feature branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
+We welcome contributions! Please see our [Contributing Guide](CONTRIBUTING.md) for details.
 
 ## 📝 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🙏 Support
+## 🙏 Acknowledgments
 
-If you find this package helpful, please consider:
+Special thanks to all our contributors and the open source community.
 
-- Starring the [GitHub repository](https://github.com/yourusername/date-range-toolkit)
-- Reporting any [issues](https://github.com/yourusername/date-range-toolkit/issues)
-- Contributing to the codebase
+## 📊 Project Status
+
+- ✅ Active development
+- 🔄 Regular updates
+- 👥 Growing community
+- 📈 Stable API
+
+## 🔗 Links
+
+- [NPM Package](https://www.npmjs.com/package/date-range-toolkit)
+- [GitHub Repository](https://github.com/surajaswal29/date-range-toolkit)
+- [Issue Tracker](https://github.com/surajaswal29/date-range-toolkit/issues)
+- [Wiki](https://github.com/surajaswal29/date-range-toolkit/wiki)
+
+## 📈 Stats
+
+![GitHub stars](https://img.shields.io/github/stars/surajaswal29/date-range-toolkit?style=social)
+![GitHub forks](https://img.shields.io/github/forks/surajaswal29/date-range-toolkit?style=social)
+![GitHub issues](https://img.shields.io/github/issues/surajaswal29/date-range-toolkit)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/surajaswal29/date-range-toolkit)

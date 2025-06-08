@@ -1,0 +1,4 @@
+{
+  "limit": "10 kb",
+  "path": ["dist/index.js", "dist/index.mjs"]
+}

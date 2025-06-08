@@ -1,9 +1,17 @@
-import { MONTHS } from "../constants/months";
-import { RANGE_PRESETS } from "../constants/range-presets";
-import { WEEKS } from "../constants/weeks";
-import { IDateLabel, IDateRange, IRangePreset } from "../types";
+import { getMonthsForYear } from '../constants/months';
+import { RANGE_PRESETS } from '../constants/range-presets';
+import { WEEKS } from '../constants/weeks';
+import { IDateLabel, IDateRange, IRangePreset } from '../types';
 
 export class PresetDateRangeService {
+  private date: Date;
+  private months: ReturnType<typeof getMonthsForYear>;
+
+  constructor(date?: Date) {
+    this.date = date || new Date();
+    this.months = getMonthsForYear(this.date.getFullYear());
+  }
+
   public getRangePresets(): IRangePreset[] {
     return RANGE_PRESETS;
   }
@@ -18,7 +26,14 @@ export class PresetDateRangeService {
     while (currentDate <= toDate) {
       const dayOfWeek = currentDate.getDay();
       const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-      const month = MONTHS[currentDate.getMonth()];
+      const currentYear = currentDate.getFullYear();
+
+      // Get months for the current year if it's different from the instance year
+      if (currentYear !== this.date.getFullYear()) {
+        this.months = getMonthsForYear(currentYear);
+      }
+
+      const month = this.months[currentDate.getMonth()];
 
       labels.push({
         label: `${currentDate.getDate()} ${month.name}`,
@@ -27,7 +42,7 @@ export class PresetDateRangeService {
         dayAbbrev: WEEKS[dayOfWeek].shortName,
         monthName: month.name,
         monthAbbrev: month.abbreviation.type_1,
-        isoDate: currentDate.toISOString().split("T")[0],
+        isoDate: currentDate.toISOString().split('T')[0],
         isWeekend,
       });
 
@@ -56,9 +71,9 @@ export class PresetDateRangeService {
    * @param customLabel Optional custom label for the range
    */
   public getLastNDays(days: number, customLabel?: string): IDateRange {
-    const toDate = new Date();
-    const fromDate = new Date();
-    fromDate.setDate(toDate.getDate() - (days - 1));
+    const toDate = new Date(this.date);
+    const fromDate = new Date(toDate);
+    fromDate.setTime(toDate.getTime() - (days - 1) * 24 * 60 * 60 * 1000);
     return this.calculateDateRangeInfo(fromDate, toDate, customLabel || `Last ${days} days`);
   }
 
@@ -68,8 +83,8 @@ export class PresetDateRangeService {
    * @param customLabel Optional custom label for the range
    */
   public getLastNMonths(months: number, customLabel?: string): IDateRange {
-    const toDate = new Date();
-    const fromDate = new Date();
+    const toDate = new Date(this.date);
+    const fromDate = new Date(this.date);
     fromDate.setMonth(toDate.getMonth() - (months - 1));
     return this.calculateDateRangeInfo(fromDate, toDate, customLabel || `Last ${months} months`);
   }
@@ -81,9 +96,9 @@ export class PresetDateRangeService {
    */
   public getPresetRange(preset: IRangePreset, customLabel?: string): IDateRange {
     switch (preset.unit) {
-      case "day":
+      case 'day':
         return this.getLastNDays(preset.value, customLabel || preset.label);
-      case "month":
+      case 'month':
         return this.getLastNMonths(preset.value, customLabel || preset.label);
       default:
         throw new Error(`Unsupported preset unit: ${preset.unit}`);
@@ -96,7 +111,7 @@ export class PresetDateRangeService {
    * @param customLabel Optional custom label for the range
    */
   public getRangeByPresetLabel(label: string, customLabel?: string): IDateRange {
-    const preset = RANGE_PRESETS.find((p) => p.label === label);
+    const preset = RANGE_PRESETS.find(p => p.label === label);
     if (!preset) {
       throw new Error(`Preset not found: ${label}`);
     }

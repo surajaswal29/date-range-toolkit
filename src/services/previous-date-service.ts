@@ -1,7 +1,7 @@
-import { IMonth, IDateInfo } from "../types";
-import { MONTHS } from "../constants/months";
-import { padZero, getWeekNumber, isLeapYear } from "../utils/dateUtils";
-import { WEEKS } from "../constants/weeks";
+import { IMonth, IDateInfo } from '../types';
+import { getMonthsForYear } from '../constants/months';
+import { padZero, isLeapYear } from '../utils/dateUtils';
+import { WEEKS } from '../constants/weeks';
 
 export class PreviousDateService {
   private date: Date;
@@ -9,17 +9,18 @@ export class PreviousDateService {
   private currentYear: number;
   private previousMonth: number;
   private previousYear: number;
-
+  private months: ReturnType<typeof getMonthsForYear>;
   constructor(date?: Date) {
     this.date = date || new Date();
     this.currentMonth = this.date.getMonth();
     this.currentYear = this.date.getFullYear();
     this.previousMonth = this.currentMonth === 0 ? 11 : this.currentMonth - 1;
     this.previousYear = this.currentMonth === 0 ? this.currentYear - 1 : this.currentYear;
+    this.months = getMonthsForYear(this.previousYear);
   }
 
   private getPreviousMonthData(): IMonth {
-    return MONTHS[this.previousMonth];
+    return this.months[this.previousMonth];
   }
 
   public getPreviousDateInfo(): IDateInfo {
@@ -39,9 +40,8 @@ export class PreviousDateService {
       firstDayOfMonth: firstDayOfPreviousMonth,
       lastDayOfMonth: lastDayOfPreviousMonth,
       isLeapYear: isLeapYear(this.previousYear),
-      weekNumber: getWeekNumber(lastDayOfPreviousMonth),
       totalWeeksInMonth: Math.ceil(
-        (previousMonthData.daysInMonth + firstDayOfPreviousMonth.getDay()) / 7,
+        (previousMonthData.daysInMonth + firstDayOfPreviousMonth.getDay()) / 7
       ),
     };
   }

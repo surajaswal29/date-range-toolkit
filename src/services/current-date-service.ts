@@ -1,21 +1,23 @@
-import { IDateInfo } from "../types";
-import { MONTHS } from "../constants/months";
-import { getWeekNumber, isLeapYear, padZero } from "../utils/dateUtils";
-import { WEEKS } from "../constants/weeks";
+import { IDateInfo } from '../types';
+import { getMonthsForYear } from '../constants/months';
+import { isLeapYear, padZero } from '../utils/dateUtils';
+import { WEEKS } from '../constants/weeks';
 
 export class CurrentDateService {
   private date: Date;
   private currentMonth: number;
   private currentYear: number;
+  private months: ReturnType<typeof getMonthsForYear>;
 
   constructor(date?: Date) {
     this.date = date || new Date();
     this.currentMonth = this.date.getMonth();
     this.currentYear = this.date.getFullYear();
+    this.months = getMonthsForYear(this.currentYear);
   }
 
   private getCurrentMonthData() {
-    return MONTHS[this.currentMonth];
+    return this.months[this.currentMonth];
   }
 
   public getCurrentDateInfo(): IDateInfo {
@@ -35,7 +37,6 @@ export class CurrentDateService {
       firstDayOfMonth,
       lastDayOfMonth,
       isLeapYear: isLeapYear(this.currentYear),
-      weekNumber: getWeekNumber(this.date),
       totalWeeksInMonth: Math.ceil((monthData.daysInMonth + firstDayOfMonth.getDay()) / 7),
     };
   }
