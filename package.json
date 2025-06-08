@@ -36,16 +36,16 @@
   ],
   "author": {
     "name": "Suraj Aswal",
-    "url": "https://github.com/surajaswal"
+    "url": "https://github.com/surajaswal29"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/surajaswal/date-range-toolkit.git"
+    "url": "https://github.com/surajaswal29/date-range-toolkit.git"
   },
   "bugs": {
-    "url": "https://github.com/surajaswal/date-range-toolkit/issues"
+    "url": "https://github.com/surajaswal29/date-range-toolkit/issues"
   },
-  "homepage": "https://github.com/surajaswal/date-range-toolkit#readme",
+  "homepage": "https://github.com/surajaswal29/date-range-toolkit#readme",
   "license": "MIT",
   "devDependencies": {
     "@commitlint/config-conventional": "^19.8.1",
