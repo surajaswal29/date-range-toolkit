@@ -1,156 +1,115 @@
-# DateRangeToolkit
+# Date Range Toolkit
 
-A powerful and flexible date range utility for React, Next.js, and Node.js applications.
+A comprehensive toolkit for handling date ranges, providing rich date metadata, calendar utilities, and customizable date range generation. Works in any JavaScript environment including Node.js, browsers, and modern frameworks.
+
+## Features
+
+- 📅 Rich date range generation and manipulation
+- 🌍 Timezone support
+- 🔄 Flexible date formatting
+- 📊 Date metadata and comparisons
+- 🎯 Tree-shakeable exports
+- 📦 Multiple bundle formats (ESM, CommonJS, UMD)
+- 💪 Written in TypeScript with full type support
 
 ## Installation
 
 ```bash
-npm install custom-dates-npm
+npm install date-range-toolkit
 # or
-yarn add custom-dates-npm
+yarn add date-range-toolkit
 # or
-pnpm add custom-dates-npm
+pnpm add date-range-toolkit
 ```
 
-## Features
+## Usage
 
-- 📅 Easy date range management
-- 🌍 Timezone support
-- 🔄 Common date range presets (Last 7 days, Last 30 days, Last Quarter, Year to Date)
-- ⚛️ React hook for easy integration
-- 🔧 Customizable date formatting
-- 📊 Date comparison utilities
-- 💪 TypeScript support
+### ES Modules / TypeScript
 
-## Usage Examples
+```typescript
+import { createDateRangeToolkit, getCurrentDateInfo } from "date-range-toolkit";
 
-### React/Next.js Usage with Hook
+// Create a toolkit instance
+const toolkit = createDateRangeToolkit();
 
-```tsx
-import { useDateRange } from "custom-dates-npm/react";
+// Get current date information
+const currentDate = getCurrentDateInfo();
+console.log(currentDate);
 
-// Example custom date range component
-function CustomDateRange() {
-  const { dateRange, setDateRange, isLoading, error } = useDateRange({
-    defaultRange: "last7days",
-    format: "MM/DD/YYYY",
-    timezone: "UTC",
-  });
-
-  const handleRangeChange = (type) => {
-    setDateRange(type);
-  };
-
-  if (error) return <div>Error: {error}</div>;
-  if (isLoading) return <div>Loading...</div>;
-
-  return (
-    <div>
-      <select onChange={(e) => handleRangeChange(e.target.value)}>
-        <option value="last7days">Last 7 Days</option>
-        <option value="last30days">Last 30 Days</option>
-        <option value="lastQuarter">Last Quarter</option>
-        <option value="yearToDate">Year to Date</option>
-      </select>
-
-      {dateRange.last7days && (
-        <div>
-          <p>From: {dateRange.last7days.fromDate.toLocaleDateString()}</p>
-          <p>To: {dateRange.last7days.toDate.toLocaleDateString()}</p>
-          <p>Total Days: {dateRange.last7days.totalDays}</p>
-        </div>
-      )}
-    </div>
-  );
-}
-
-// Example with custom date range
-function CustomRangePicker() {
-  const { dateRange, setDateRange } = useDateRange();
-
-  const handleCustomRange = (startDate, endDate) => {
-    setDateRange("custom", startDate, endDate);
-  };
-
-  return (
-    <div>
-      <button onClick={() => handleCustomRange(new Date("2024-01-01"), new Date("2024-12-31"))}>Set Year 2024</button>
-
-      {dateRange.customRange && (
-        <div>
-          <p>Start: {dateRange.customRange.fromDate.toLocaleDateString()}</p>
-          <p>End: {dateRange.customRange.toDate.toLocaleDateString()}</p>
-        </div>
-      )}
-    </div>
-  );
-}
+// Get a custom date range
+const range = toolkit.getCustomDateRange("2024-01-01", "2024-12-31");
 ```
 
-### Node.js Usage
+### CommonJS
 
 ```javascript
-const { DateRangeToolkit } = require("custom-dates-npm");
+const { createDateRangeToolkit } = require("date-range-toolkit");
 
-// Create a new instance
-const dateRange = new DateRangeToolkit().format("MM/DD/YYYY").timezone("America/New_York").last7Days().build();
-
-console.log(dateRange);
+const toolkit = createDateRangeToolkit();
+// ... rest of the code
 ```
 
-### Advanced Usage with Custom Range
+### Browser (UMD)
 
-```typescript
-import { DateRangeToolkit } from "custom-dates-npm";
-
-const toolkit = new DateRangeToolkit().format("YYYY-MM-DD").customRange(new Date("2024-01-01"), new Date("2024-12-31")).build();
-
-const { fromDate, toDate, totalDays, weekDays, weekendDays } = toolkit.customRange;
+```html
+<script src="https://unpkg.com/date-range-toolkit"></script>
+<script>
+  const toolkit = DateRangeToolkit.createDateRangeToolkit();
+  // ... use the toolkit
+</script>
 ```
 
-### Date Comparison
+### React Example
 
-```typescript
-import { DateRangeToolkit } from "custom-dates-npm";
+```jsx
+import { useEffect, useState } from "react";
+import { getCurrentDateInfo, getLastNDays } from "date-range-toolkit";
 
-const date1 = new DateRangeToolkit(new Date("2024-01-01"));
-const date2 = new DateRangeToolkit(new Date("2024-02-01"));
+function DateRangeComponent() {
+  const [dateInfo, setDateInfo] = useState(null);
 
-const comparison = date1.compareTo(date2);
-console.log(comparison.diffInDays); // Outputs the difference in days
+  useEffect(() => {
+    const current = getCurrentDateInfo();
+    const last7Days = getLastNDays(7);
+    setDateInfo({ current, last7Days });
+  }, []);
+
+  return (
+    <div>
+      <h2>Date Information</h2>
+      <pre>{JSON.stringify(dateInfo, null, 2)}</pre>
+    </div>
+  );
+}
 ```
 
 ## API Reference
 
-### useDateRange Hook Options
+### Core Functions
+
+- `createDateRangeToolkit()`: Creates a new toolkit instance
+- `getCurrentDateInfo()`: Get current date metadata
+- `getPreviousDateInfo()`: Get previous date information
+- `getLastNDays(n: number)`: Get date range for last N days
+
+### Utility Functions
+
+- `formatDate(date: Date, format: string)`: Format dates
+- `convertTimezone(date: Date, timezone: string)`: Convert dates between timezones
+- `getTimezone()`: Get current timezone
+
+### Types
+
+The package includes comprehensive TypeScript definitions for all functions and objects:
 
 ```typescript
-interface UseDateRangeOptions {
-  defaultRange?: "last7days" | "last30days" | "lastQuarter" | "yearToDate" | "custom";
-  format?: string;
-  timezone?: string;
-  defaultStartDate?: Date;
-  defaultEndDate?: Date;
-}
+import type { IDateRange, ICurrentDateInfo, ICustomRangeInfo } from "date-range-toolkit";
 ```
-
-### DateRangeToolkit Methods
-
-- `format(format: string)`: Set date format
-- `timezone(timezone: string)`: Set timezone
-- `current()`: Get current date info
-- `previous()`: Get previous year's info
-- `last7Days()`: Get last 7 days info
-- `last30Days()`: Get last 30 days info
-- `lastQuarter()`: Get last quarter info
-- `yearToDate()`: Get year to date info
-- `customRange(startDate: Date, endDate: Date)`: Get custom date range
-- `build()`: Build and return the final result
 
 ## Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+Please see [CONTRIBUTING.md](CONTRIBUTING.md) for details on how to contribute to this project.
 
 ## License
 
-MIT
+ISC License - See [LICENSE](LICENSE) for details.

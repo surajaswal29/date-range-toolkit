@@ -1,16 +1,5 @@
-import { IDateLabel } from "../types";
+import { IDateLabel, IDateRange } from "../types";
 import { MONTHS, WEEKS } from "../constants";
-
-interface IDateRangeResult {
-  fromDate: Date;
-  toDate: Date;
-  fromISODate: string;
-  toISODate: string;
-  totalDays: number;
-  weekendDays: number;
-  weekDays: number;
-  labels: IDateLabel[];
-}
 
 /**
  * Creates date labels for a given date range
@@ -44,7 +33,7 @@ const createDateLabels = (fromDate: Date, toDate: Date): IDateLabel[] => {
 /**
  * Calculates date range information for a given start and end date
  */
-const calculateDateRangeInfo = (fromDate: Date, toDate: Date): IDateRangeResult => {
+const calculateDateRangeInfo = (fromDate: Date, toDate: Date): IDateRange => {
   const labels = createDateLabels(fromDate, toDate);
   const weekendDays = labels.filter((label) => label.isWeekend).length;
   const totalDays = labels.length;
@@ -54,6 +43,8 @@ const calculateDateRangeInfo = (fromDate: Date, toDate: Date): IDateRangeResult 
     toDate: new Date(toDate),
     fromISODate: fromDate.toISOString().split("T")[0],
     toISODate: toDate.toISOString().split("T")[0],
+    from_date: fromDate.getTime(),
+    to_date: toDate.getTime(),
     totalDays,
     weekendDays,
     weekDays: totalDays - weekendDays,
@@ -64,7 +55,7 @@ const calculateDateRangeInfo = (fromDate: Date, toDate: Date): IDateRangeResult 
 /**
  * Gets the last N days date range
  */
-export const getLastNDays = (days: number): IDateRangeResult => {
+export const getLastNDays = (days: number): IDateRange => {
   const toDate = new Date();
   const fromDate = new Date();
   fromDate.setDate(toDate.getDate() - (days - 1));
@@ -74,7 +65,7 @@ export const getLastNDays = (days: number): IDateRangeResult => {
 /**
  * Gets the last quarter date range
  */
-export const getLastQuarter = (): IDateRangeResult => {
+export const getLastQuarter = (): IDateRange => {
   const today = new Date();
   const currentQuarter = Math.floor(today.getMonth() / 3);
   const fromDate = new Date(today.getFullYear(), currentQuarter * 3 - 3, 1);
@@ -85,7 +76,7 @@ export const getLastQuarter = (): IDateRangeResult => {
 /**
  * Gets the year to date range
  */
-export const getYearToDate = (): IDateRangeResult => {
+export const getYearToDate = (): IDateRange => {
   const today = new Date();
   const fromDate = new Date(today.getFullYear(), 0, 1);
   return calculateDateRangeInfo(fromDate, today);
@@ -94,6 +85,13 @@ export const getYearToDate = (): IDateRangeResult => {
 /**
  * Gets a custom date range
  */
-export const getCustomDateRange = (startDate: Date, endDate: Date): IDateRangeResult => {
+export const getCustomDateRange = (startDate: Date, endDate: Date): IDateRange => {
   return calculateDateRangeInfo(startDate, endDate);
+};
+
+/**
+ * Gets the last 7 days date range
+ */
+export const getLast7DaysInfo = (): IDateRange => {
+  return getLastNDays(7);
 };

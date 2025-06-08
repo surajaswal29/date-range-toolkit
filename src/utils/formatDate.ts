@@ -1,8 +1,8 @@
 import { WEEKS } from "../constants";
 import { MONTHS } from "../constants";
-import { getQuarter, padZero } from "../utils/dateUtils";
+import { getQuarter, padZero } from "./dateUtils";
 
-import { getWeekNumber } from "../utils/dateUtils";
+import { getWeekNumber } from "./dateUtils";
 
 /**
  * Formats a date according to the specified format string

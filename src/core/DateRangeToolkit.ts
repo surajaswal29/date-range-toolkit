@@ -2,21 +2,22 @@ import {
   IDateRangeToolkitResult,
   ICurrentDateInfo,
   IPreviousDateInfo,
-  ILast7DaysInfo,
   IDateComparisonResult,
   IDateRangeOptions,
+  IDateRange,
+  IMonth,
 } from "../types";
 import { MONTHS } from "../constants";
 import { getCurrentDateInfo } from "../services/currentDateService";
 import { getPreviousDateInfo } from "../services/previousDateService";
-import { getLast7DaysInfo } from "../services/last7DaysService";
-import { formatDate } from "../services/formatDate";
+import { formatDate } from "../utils/formatDate";
 import { convertTimezone, getTimezone } from "../utils/dateUtils";
 import {
   getLastNDays,
   getLastQuarter,
   getYearToDate,
   getCustomDateRange,
+  getLast7DaysInfo,
 } from "../services/presetDateRangeService";
 
 export class DateRangeToolkit {
@@ -25,12 +26,12 @@ export class DateRangeToolkit {
   private _date: Date = new Date();
   private _current: ICurrentDateInfo | null = null;
   private _previous: IPreviousDateInfo | null = null;
-  private _last7days: ILast7DaysInfo | null = null;
-  private _last30days: ILast7DaysInfo | null = null;
-  private _lastQuarter: ILast7DaysInfo | null = null;
-  private _yearToDate: ILast7DaysInfo | null = null;
-  private _customRange: ILast7DaysInfo | null = null;
-  private _allMonths = MONTHS;
+  private _last7days: IDateRange | null = null;
+  private _last30days: IDateRange | null = null;
+  private _lastQuarter: IDateRange | null = null;
+  private _yearToDate: IDateRange | null = null;
+  private _customRange: IDateRange | null = null;
+  private _allMonths: IMonth[] = MONTHS;
   private _isValid: boolean = true;
   private _invalidReason: string = "";
   private _options: IDateRangeOptions = {};
@@ -250,19 +251,7 @@ export class DateRangeToolkit {
    * @returns this instance for method chaining
    */
   public last30Days(): DateRangeToolkit {
-    const result = getLastNDays(30);
-    this._last30days = {
-      from_date: result.fromDate.getDate(),
-      to_date: result.toDate.getDate(),
-      fromDate: result.fromDate,
-      toDate: result.toDate,
-      fromISODate: result.fromISODate,
-      toISODate: result.toISODate,
-      totalDays: result.totalDays,
-      weekendDays: result.weekendDays,
-      weekDays: result.weekDays,
-      L7D: result.labels,
-    };
+    this._last30days = getLastNDays(30);
     return this;
   }
 
@@ -271,19 +260,7 @@ export class DateRangeToolkit {
    * @returns this instance for method chaining
    */
   public lastQuarter(): DateRangeToolkit {
-    const result = getLastQuarter();
-    this._lastQuarter = {
-      from_date: result.fromDate.getDate(),
-      to_date: result.toDate.getDate(),
-      fromDate: result.fromDate,
-      toDate: result.toDate,
-      fromISODate: result.fromISODate,
-      toISODate: result.toISODate,
-      totalDays: result.totalDays,
-      weekendDays: result.weekendDays,
-      weekDays: result.weekDays,
-      L7D: result.labels,
-    };
+    this._lastQuarter = getLastQuarter();
     return this;
   }
 
@@ -292,19 +269,7 @@ export class DateRangeToolkit {
    * @returns this instance for method chaining
    */
   public yearToDate(): DateRangeToolkit {
-    const result = getYearToDate();
-    this._yearToDate = {
-      from_date: result.fromDate.getDate(),
-      to_date: result.toDate.getDate(),
-      fromDate: result.fromDate,
-      toDate: result.toDate,
-      fromISODate: result.fromISODate,
-      toISODate: result.toISODate,
-      totalDays: result.totalDays,
-      weekendDays: result.weekendDays,
-      weekDays: result.weekDays,
-      L7D: result.labels,
-    };
+    this._yearToDate = getYearToDate();
     return this;
   }
 
@@ -315,19 +280,7 @@ export class DateRangeToolkit {
    * @returns this instance for method chaining
    */
   public customRange(startDate: Date, endDate: Date): DateRangeToolkit {
-    const result = getCustomDateRange(startDate, endDate);
-    this._customRange = {
-      from_date: result.fromDate.getDate(),
-      to_date: result.toDate.getDate(),
-      fromDate: result.fromDate,
-      toDate: result.toDate,
-      fromISODate: result.fromISODate,
-      toISODate: result.toISODate,
-      totalDays: result.totalDays,
-      weekendDays: result.weekendDays,
-      weekDays: result.weekDays,
-      L7D: result.labels,
-    };
+    this._customRange = getCustomDateRange(startDate, endDate);
     return this;
   }
 

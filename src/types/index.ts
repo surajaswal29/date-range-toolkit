@@ -55,16 +55,8 @@ export interface ICurrentDateInfo {
   timezone: string;
 }
 
-export interface IPreviousDateInfo {
-  year: number;
-  month: string;
-  monthLength: number;
-  monthName: string;
-}
-
-export interface ILast7DaysInfo {
-  from_date: number;
-  to_date: number;
+// Base interface for all date ranges
+export interface IBaseDateRange {
   fromDate: Date;
   toDate: Date;
   fromISODate: string;
@@ -72,18 +64,41 @@ export interface ILast7DaysInfo {
   totalDays: number;
   weekendDays: number;
   weekDays: number;
-  L7D: IDateLabel[];
+  labels: IDateLabel[];
+}
+
+// Numeric version of the range (used internally)
+export interface INumericDateRange {
+  from_date: number;
+  to_date: number;
+}
+
+// Combined interface for all range types
+export interface IDateRange extends IBaseDateRange, INumericDateRange {}
+
+// Specific preset interfaces extending the base range
+export interface ILast7DaysInfo extends IDateRange {}
+export interface ILast30DaysInfo extends IDateRange {}
+export interface ILastQuarterInfo extends IDateRange {}
+export interface IYearToDateInfo extends IDateRange {}
+export interface ICustomRangeInfo extends IDateRange {}
+
+export interface IPreviousDateInfo {
+  year: number;
+  month: string;
+  monthLength: number;
+  monthName: string;
 }
 
 export interface IDateRangeToolkitResult {
-  current: ICurrentDateInfo;
-  previous: IPreviousDateInfo;
-  allMonths: IMonth[];
-  last7days: ILast7DaysInfo;
-  last30days?: ILast7DaysInfo;
-  lastQuarter?: ILast7DaysInfo;
-  yearToDate?: ILast7DaysInfo;
-  customRange?: ILast7DaysInfo;
+  current?: ICurrentDateInfo;
+  previous?: IPreviousDateInfo;
+  last7days?: ILast7DaysInfo;
+  last30days?: ILast30DaysInfo;
+  lastQuarter?: ILastQuarterInfo;
+  yearToDate?: IYearToDateInfo;
+  customRange?: ICustomRangeInfo;
+  allMonths?: IMonth[];
 }
 
 export interface IDateComparisonResult {
