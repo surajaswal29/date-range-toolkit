@@ -1,6 +1,6 @@
 {
   "name": "date-range-toolkit",
-  "version": "1.0.0",
+  "version": "1.1.0",
   "description": "A comprehensive toolkit for handling date ranges, providing rich date metadata, calendar utilities, and customizable date range generation",
   "main": "dist/index.cjs.js",
   "module": "dist/index.esm.js",
