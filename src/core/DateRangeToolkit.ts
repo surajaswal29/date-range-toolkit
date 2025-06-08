@@ -1,331 +1,344 @@
-import {
-  IDateRangeToolkitResult,
-  ICurrentDateInfo,
-  IPreviousDateInfo,
-  IDateComparisonResult,
-  IDateRangeOptions,
-  IDateRange,
-  IMonth,
-} from "../types";
-import { MONTHS } from "../constants";
-import { getCurrentDateInfo } from "../services/currentDateService";
-import { getPreviousDateInfo } from "../services/previousDateService";
-import { formatDate } from "../utils/formatDate";
-import { convertTimezone, getTimezone } from "../utils/dateUtils";
-import {
-  getLastNDays,
-  getLastQuarter,
-  getYearToDate,
-  getCustomDateRange,
-  getLast7DaysInfo,
-} from "../services/presetDateRangeService";
+import { IDateInfo, IDateRange, IMonth, IWeek, IRangePreset } from "../types";
+import { MONTHS } from "../constants/months";
+import { WEEKS } from "../constants/weeks";
+import { CurrentDateService } from "../services/current-date-service";
+import { PreviousDateService } from "../services/previous-date-service";
+import { PresetDateRangeService } from "../services/preset-date-range-service";
 
+/**
+ * A toolkit for handling date ranges and date-related operations
+ * @example
+ * ```typescript
+ * const dateRangeToolkit = new DateRangeToolkit();
+ * const last7Days = dateRangeToolkit.getLast7Days();
+ * console.log(last7Days);
+ * ```
+ */
 export class DateRangeToolkit {
-  private _format: string = "MM/DD/YYYY HH:mm:ss a";
-  private _timezone: string = getTimezone(new Date());
-  private _date: Date = new Date();
-  private _current: ICurrentDateInfo | null = null;
-  private _previous: IPreviousDateInfo | null = null;
-  private _last7days: IDateRange | null = null;
-  private _last30days: IDateRange | null = null;
-  private _lastQuarter: IDateRange | null = null;
-  private _yearToDate: IDateRange | null = null;
-  private _customRange: IDateRange | null = null;
-  private _allMonths: IMonth[] = MONTHS;
-  private _isValid: boolean = true;
-  private _invalidReason: string = "";
-  private _options: IDateRangeOptions = {};
+  private date: Date;
+  private presetService: PresetDateRangeService;
+  private currentDateService: CurrentDateService;
+  private previousDateService: PreviousDateService;
 
   /**
-   * Creates a new DateRangeToolkit instance
-   * @param date - Optional date string or Date object
-   * @param format - Optional format string for parsing the date
+   * Creates an instance of DateRangeToolkit
+   * @param date - Optional date parameter that can be a string, Date object, or number
+   * @throws {Error} When an invalid date is provided
    */
-  constructor(date?: string | Date | number, format?: string) {
-    if (date) {
-      if (date instanceof Date) {
-        this._date = new Date(date);
-      } else if (typeof date === "number") {
-        this._date = new Date(date);
-      } else {
-        try {
-          this._date = new Date(date);
-          if (isNaN(this._date.getTime())) {
-            throw new Error("Invalid date");
-          }
-        } catch (e) {
-          this._isValid = false;
-          this._invalidReason = "Invalid date string provided";
-          this._date = new Date();
-        }
+  constructor(date?: string | Date | number) {
+    if (!date) {
+      this.date = new Date();
+    } else if (date instanceof Date) {
+      this.date = new Date(date);
+    } else {
+      const parsedDate = new Date(date);
+      if (isNaN(parsedDate.getTime())) {
+        throw new Error("Invalid date provided");
       }
+      this.date = parsedDate;
     }
-    if (format) {
-      this._format = format;
-    }
+    this.presetService = new PresetDateRangeService();
+    this.currentDateService = new CurrentDateService(this.date);
+    this.previousDateService = new PreviousDateService(this.date);
   }
 
   /**
-   * Set the format for the date
-   * @param format - The format to set
-   * @returns this instance for method chaining
+   * Returns the current date instance
+   * @returns A new Date object instance
    */
-  public format(format: string = "MM/DD/YYYY HH:mm:ss a"): DateRangeToolkit {
-    this._format = format;
-    return this;
+  public getDate(): Date {
+    return new Date(this.date);
   }
 
   /**
-   * Get the formatted date string
-   * @returns Formatted date string
+   * Gets information about the current date
+   * @returns {IDateInfo} Current date information
+   * @example
+   * ```typescript
+   * {
+   *   year: 2025,
+   *   month: "January",
+   *   dayOfWeek: "Monday",
+   *   dayOfMonth: 1,
+   *   monthLength: 31,
+   *   monthName: "January",
+   *   monthAbbreviation: {
+   *     type_1: "Jan",
+   *     type_2: "JAN",
+   *     type_3: "jan"
+   *   },
+   *   quarter: 1,
+   *   firstDayOfMonth: "2025-01-01",
+   *   lastDayOfMonth: "2025-01-31",
+   *   isLeapYear: false,
+   *   weekNumber: 1,
+   *   totalWeeksInMonth: 5
+   * }
+   * ```
    */
-  public toString(): string {
-    return formatDate(this._date, this._format);
+  public getCurrentDateInfo(): IDateInfo {
+    return this.currentDateService.getCurrentDateInfo();
   }
 
   /**
-   * Set the timezone for the date
-   * @param timezone - The timezone to set
-   * @returns this instance for method chaining
+   * Gets information about the previous date
+   * @returns {IDateInfo} Previous date information
+   * @example
+   * ```typescript
+   * {
+   *   year: 2024,
+   *   month: "December",
+   *   dayOfWeek: "Sunday",
+   *   dayOfMonth: 29,
+   *   monthLength: 31,
+   *   monthName: "December",
+   *   monthAbbreviation: {
+   *     type_1: "Dec",
+   *     type_2: "DEC",
+   *     type_3: "dec"
+   *   },
+   *   quarter: 4,
+   *   firstDayOfMonth: "2024-12-01",
+   *   lastDayOfMonth: "2024-12-31",
+   *   isLeapYear: false,
+   *   weekNumber: 1,
+   *   totalWeeksInMonth: 5
+   * }
+   * ```
    */
-  public timezone(timezone: string): DateRangeToolkit {
-    try {
-      // Test if timezone is valid
-      Intl.DateTimeFormat(undefined, { timeZone: timezone });
-      this._date = convertTimezone(this._date, this._timezone, timezone);
-      this._timezone = timezone;
-    } catch (e) {
-      this._isValid = false;
-      this._invalidReason = `Invalid timezone: ${timezone}`;
-    }
-    return this;
+  public getPreviousDateInfo(): IDateInfo {
+    return this.previousDateService.getPreviousDateInfo();
   }
 
   /**
-   * Get current date information
-   * @returns this instance for method chaining
+   * Gets a date range for the last 7 days
+   * @param customLabel - Optional custom label for the date range
+   * @returns {IDateRange} Date range object for the last 7 days
+   * @example
+   * ```typescript
+   * {
+   *   startDate: "2025-01-01",
+   *   endDate: "2025-01-07",
+   *   rangeLabel: "Last 7 days",
+   *   labels: [
+   *     {
+   *       label: "1 Jan",
+   *       date: "2025-01-01",
+   *       dayName: "Monday",
+   *       dayAbbrev: "Mon",
+   *       monthName: "January",
+   *       monthAbbrev: "Jan",
+   *       isoDate: "2025-01-01",
+   *       isWeekend: false
+   *     },
+   *     ...
+   *   ]
+   * }
    */
-  public current(): DateRangeToolkit {
-    this._current = getCurrentDateInfo();
-    return this;
+  public getLast7Days(customLabel?: string): IDateRange {
+    return this.presetService.getLastNDays(7, customLabel);
   }
 
   /**
-   * Get previous year's date information
-   * @returns this instance for method chaining
+   * Gets a date range for the last 30 days
+   * @param customLabel - Optional custom label for the date range
+   * @returns {IDateRange} Date range object for the last 30 days
+   * @example
+   * ```typescript
+   * {
+   *   startDate: "2025-01-01",
+   *   endDate: "2025-01-30",
+   *   rangeLabel: "Last 30 days",
+   *   labels: [
+   *     {
+   *       label: "1 Jan",
+   *       date: "2025-01-01",
+   *       dayName: "Monday",
+   *       dayAbbrev: "Mon",
+   *       monthName: "January",
+   *       monthAbbrev: "Jan",
+   *       isoDate: "2025-01-01",
+   *       isWeekend: false
+   *     },
+   *     ...
+   *   ]
+   * }
    */
-  public previous(): DateRangeToolkit {
-    this._previous = getPreviousDateInfo();
-    return this;
+  public getLast30Days(customLabel?: string): IDateRange {
+    return this.presetService.getLastNDays(30, customLabel);
   }
 
   /**
-   * Get last 7 days information
-   * @returns this instance for method chaining
+   * Gets a date range for the last 3 months
+   * @param customLabel - Optional custom label for the date range
+   * @returns {IDateRange} Date range object for the last 3 months
+   * @example
+   * ```typescript
+   * {
+   *   startDate: "2025-01-01",
+   *   endDate: "2025-03-31",
+   *   rangeLabel: "Last 3 months",
+   *   labels: [
+   *     {
+   *       label: "1 Jan",
+   *       date: "2025-01-01",
+   *       dayName: "Monday",
+   *       dayAbbrev: "Mon",
+   *       monthName: "January",
+   *       monthAbbrev: "Jan",
+   *       isoDate: "2025-01-01",
+   *       isWeekend: false
+   *     },
+   *     ...
+   *   ]
+   * }
    */
-  public last7Days(): DateRangeToolkit {
-    this._last7days = getLast7DaysInfo();
-    return this;
+  public getLast3Months(customLabel?: string): IDateRange {
+    return this.presetService.getLastNMonths(3, customLabel);
   }
 
   /**
-   * Get all months information
-   * @returns this instance for method chaining
+   * Gets a date range from the start of the year to the current date
+   * @param customLabel - Optional custom label for the date range
+   * @returns {IDateRange} Date range object for the year to date
+   * @example
+   * ```typescript
+   * {
+   *   startDate: "2025-01-01",
+   *   endDate: "2025-12-31",
+   *   rangeLabel: "Year to Date",
+   *   labels: [
+   *     {
+   *       label: "1 Jan",
+   *       date: "2025-01-01",
+   *       dayName: "Monday",
+   *       dayAbbrev: "Mon",
+   *       monthName: "January",
+   *       monthAbbrev: "Jan",
+   *       isoDate: "2025-01-01",
+   *       isWeekend: false
+   *     },
+   *     ...
+   *   ]
+   * }
    */
-  public months(): DateRangeToolkit {
-    this._allMonths = MONTHS;
-    return this;
+  public getLastYear(customLabel?: string): IDateRange {
+    const startDate = new Date(this.date.getFullYear(), 0, 1);
+    return this.presetService.getCustomRange(startDate, this.date, customLabel || "Year to Date");
   }
 
   /**
-   * Add a specified amount of time to the date
-   * @param amount - The amount to add
-   * @param unit - The unit of time ('years'|'months'|'days'|'hours'|'minutes'|'seconds')
-   * @returns this instance for method chaining
+   * Creates a custom date range between two dates
+   * @param startDate - The start date of the range
+   * @param endDate - The end date of the range
+   * @param customLabel - Optional custom label for the date range
+   * @returns {IDateRange} Custom date range object
+   * @example
+   * ```typescript
+   * {
+   *   startDate: "2025-01-01",
+   *   endDate: "2025-01-30",
+   *   rangeLabel: "Custom Range",
+   *   labels: [
+   *     {
+   *       label: "1 Jan",
+   *       date: "2025-01-01",
+   *       dayName: "Monday",
+   *       dayAbbrev: "Mon",
+   *       monthName: "January",
+   *       monthAbbrev: "Jan",
+   *       isoDate: "2025-01-01",
+   *       isWeekend: false
+   *     },
+   *     ...
+   *   ]
+   * }
    */
-  public add(
-    amount: number,
-    unit: "years" | "months" | "days" | "hours" | "minutes" | "seconds",
-  ): DateRangeToolkit {
-    const newDate = new Date(this._date);
-    switch (unit) {
-      case "years":
-        newDate.setFullYear(newDate.getFullYear() + amount);
-        break;
-      case "months":
-        newDate.setMonth(newDate.getMonth() + amount);
-        break;
-      case "days":
-        newDate.setDate(newDate.getDate() + amount);
-        break;
-      case "hours":
-        newDate.setHours(newDate.getHours() + amount);
-        break;
-      case "minutes":
-        newDate.setMinutes(newDate.getMinutes() + amount);
-        break;
-      case "seconds":
-        newDate.setSeconds(newDate.getSeconds() + amount);
-        break;
-    }
-    this._date = newDate;
-    return this;
+  public getCustomRange(startDate: Date, endDate: Date, customLabel?: string): IDateRange {
+    return this.presetService.getCustomRange(startDate, endDate, customLabel || "Custom Range");
   }
 
   /**
-   * Subtract a specified amount of time from the date
-   * @param amount - The amount to subtract
-   * @param unit - The unit of time ('years'|'months'|'days'|'hours'|'minutes'|'seconds')
-   * @returns this instance for method chaining
+   * Returns an array of month objects containing detailed month information
+   * @returns {IMonth[]} An array of month objects with the following structure:
+   * @example
+   * ```typescript
+   * [
+   *   {
+   *     id: 0,
+   *     name: "January",
+   *     abbreviation: { type_1: "Jan", type_2: "JAN", type_3: "jan" },
+   *     daysInMonth: 31,
+   *     quarter: 1
+   *   },
+   *   {
+   *     id: 1,
+   *     name: "February",
+   *     abbreviation: { type_1: "Feb", type_2: "FEB", type_3: "feb" },
+   *     daysInMonth: 28,
+   *     quarter: 1
+   *   },
+   *   ...
+   * ]
+   * ```
    */
-  public subtract(
-    amount: number,
-    unit: "years" | "months" | "days" | "hours" | "minutes" | "seconds",
-  ): DateRangeToolkit {
-    return this.add(-amount, unit);
+  public getMonths(): IMonth[] {
+    return [...MONTHS];
   }
 
   /**
-   * Compare this date with another date
-   * @param date - Date to compare with
-   * @returns Comparison result object
+   * Returns an array of month names
+   * @returns {string[]} An array of full month names (e.g., ["January", "February", ...])
+   * @example
+   * ```typescript
+   * ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"]
+   * ```
    */
-  public compareTo(date: Date | string | DateRangeToolkit): IDateComparisonResult {
-    const compareDate = date instanceof DateRangeToolkit ? date._date : new Date(date);
-    const thisTime = this._date.getTime();
-    const compareTime = compareDate.getTime();
-
-    const diffInMillis = thisTime - compareTime;
-    const diffInDays = Math.floor(diffInMillis / (1000 * 60 * 60 * 24));
-    const diffInMonths =
-      (this._date.getFullYear() - compareDate.getFullYear()) * 12 +
-      (this._date.getMonth() - compareDate.getMonth());
-    const diffInYears = this._date.getFullYear() - compareDate.getFullYear();
-
-    return {
-      equal: thisTime === compareTime,
-      before: thisTime < compareTime,
-      after: thisTime > compareTime,
-      diffInDays,
-      diffInMonths,
-      diffInYears,
-    };
+  public getMonthsLabels(): string[] {
+    return MONTHS.map((month) => month.name);
   }
 
   /**
-   * Check if the date is valid
-   * @returns boolean indicating if the date is valid
+   * Returns an array of week objects containing week information
+   * @returns {IWeek[]} An array of week objects with day names and their short forms
+   * @example
+   * ```typescript
+   * [
+   *   { id: 1, name: "Monday", shortName: "Mon" },
+   *   { id: 2, name: "Tuesday", shortName: "Tue" },
+   *   ...
+   * ]
+   * ```
    */
-  public isValid(): boolean {
-    return this._isValid && !isNaN(this._date.getTime());
+  public getWeeks(): IWeek[] {
+    return [...WEEKS];
   }
 
   /**
-   * Get the validation error message if the date is invalid
-   * @returns Error message or empty string if valid
+   * Returns an array of week day names
+   * @returns {string[]} An array of full week day names (e.g., ["Monday", "Tuesday", ...])
+   * @example
+   * ```typescript
+   * ["Monday", "Tuesday", "Wednesday", "Thursday", "Friday", "Saturday", "Sunday"]
+   * ```
    */
-  public getValidationError(): string {
-    return this._isValid ? "" : this._invalidReason;
+  public getWeeksLabels(): string[] {
+    return WEEKS.map((week) => week.name);
   }
 
   /**
-   * Get the native Date object
-   * @returns The underlying Date object
+   * Returns an array of preset date range options
+   * @returns {IRangePreset[]} An array of preset date range options (e.g., Last 7 days, Last 30 days, etc.)
+   * @example
+   * ```typescript
+   * [
+   *   { label: "Last 7 days", value: 7, unit: "day" },
+   *   { label: "Last 30 days", value: 30, unit: "day" },
+   *   ...
+   * ]
+   * ```
    */
-  public toDate(): Date {
-    return new Date(this._date);
-  }
-
-  /**
-   * Set date range options
-   * @param options - The options to set
-   * @returns this instance for method chaining
-   */
-  public setOptions(options: IDateRangeOptions): DateRangeToolkit {
-    this._options = options;
-    return this;
-  }
-
-  /**
-   * Get last 30 days information
-   * @returns this instance for method chaining
-   */
-  public last30Days(): DateRangeToolkit {
-    this._last30days = getLastNDays(30);
-    return this;
-  }
-
-  /**
-   * Get last quarter information
-   * @returns this instance for method chaining
-   */
-  public lastQuarter(): DateRangeToolkit {
-    this._lastQuarter = getLastQuarter();
-    return this;
-  }
-
-  /**
-   * Get year to date information
-   * @returns this instance for method chaining
-   */
-  public yearToDate(): DateRangeToolkit {
-    this._yearToDate = getYearToDate();
-    return this;
-  }
-
-  /**
-   * Get custom date range information
-   * @param startDate - Start date
-   * @param endDate - End date
-   * @returns this instance for method chaining
-   */
-  public customRange(startDate: Date, endDate: Date): DateRangeToolkit {
-    this._customRange = getCustomDateRange(startDate, endDate);
-    return this;
-  }
-
-  /**
-   * Build and return the final result
-   * @returns Object containing all requested date information
-   */
-  public build(): Partial<IDateRangeToolkitResult> {
-    if (!this._isValid) {
-      throw new Error(`Invalid date: ${this._invalidReason}`);
-    }
-
-    const result: Partial<IDateRangeToolkitResult> = {};
-
-    if (this._current) result.current = this._current;
-    if (this._previous) result.previous = this._previous;
-    if (this._last7days) result.last7days = this._last7days;
-    if (this._last30days) result.last30days = this._last30days;
-    if (this._lastQuarter) result.lastQuarter = this._lastQuarter;
-    if (this._yearToDate) result.yearToDate = this._yearToDate;
-    if (this._customRange) result.customRange = this._customRange;
-    if (this._allMonths) result.allMonths = this._allMonths;
-
-    return result;
-  }
-
-  /**
-   * Get debug information about the current state
-   * @returns Debug information object
-   */
-  public debug(): object {
-    return {
-      date: this._date,
-      format: this._format,
-      timezone: this._timezone,
-      isValid: this._isValid,
-      invalidReason: this._invalidReason,
-      hasCurrentInfo: !!this._current,
-      hasPreviousInfo: !!this._previous,
-      hasLast7DaysInfo: !!this._last7days,
-      hasLast30DaysInfo: !!this._last30days,
-      hasLastQuarterInfo: !!this._lastQuarter,
-      hasYearToDateInfo: !!this._yearToDate,
-      hasCustomRangeInfo: !!this._customRange,
-      hasMonthsInfo: !!this._allMonths,
-    };
+  public getPresets(): IRangePreset[] {
+    return this.presetService.getRangePresets();
   }
 }

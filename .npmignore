@@ -6,21 +6,31 @@ coverage/
 .nyc_output/
 
 # Configuration files
-.eslintrc*
-.prettierrc*
+.eslintrc.json
 .editorconfig
-tsconfig.json
-jest.config.js
-.travis.yml
+.prettierrc
+.prettierignore
+.gitignore
+.husky/
 .github/
 .vscode/
 .idea/
+*.config.js
+*.config.ts
+tsconfig.json
+jest.config.ts
+commitlint.config.ts
 
 # Documentation and examples
 docs/
 examples/
 *.md
 !README.md
+
+# Development files
+CONTRIBUTING.md
+CHANGELOG.md
+.lintstagedrc
 
 # Development artifacts
 *.log
@@ -33,7 +43,6 @@ yarn-error.log*
 
 # Git related
 .git/
-.gitignore
 .gitattributes
 
 # Build process
@@ -44,10 +53,14 @@ temp/
 
 # CI/CD
 .circleci/
-.github/
 .gitlab-ci.yml
 
 # Test files
 *.spec.*
 *.test.*
-test/ 
+test/
+
+# Dependencies
+package-lock.json
+yarn.lock
+pnpm-lock.yaml 

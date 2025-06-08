@@ -2,6 +2,7 @@ import { IMonth } from "../types";
 import { getFebruaryDays } from "../utils/dateUtils";
 
 const january: IMonth = {
+  id: 0,
   name: "January",
   abbreviation: {
     type_1: "Jan",
@@ -13,6 +14,7 @@ const january: IMonth = {
 };
 
 const february: IMonth = {
+  id: 1,
   name: "February",
   abbreviation: {
     type_1: "Feb",
@@ -24,6 +26,7 @@ const february: IMonth = {
 };
 
 const march: IMonth = {
+  id: 2,
   name: "March",
   abbreviation: {
     type_1: "Mar",
@@ -35,6 +38,7 @@ const march: IMonth = {
 };
 
 const april: IMonth = {
+  id: 3,
   name: "April",
   abbreviation: {
     type_1: "Apr",
@@ -46,6 +50,7 @@ const april: IMonth = {
 };
 
 const may: IMonth = {
+  id: 4,
   name: "May",
   abbreviation: {
     type_1: "May",
@@ -57,6 +62,7 @@ const may: IMonth = {
 };
 
 const june: IMonth = {
+  id: 5,
   name: "June",
   abbreviation: {
     type_1: "Jun",
@@ -68,6 +74,7 @@ const june: IMonth = {
 };
 
 const july: IMonth = {
+  id: 6,
   name: "July",
   abbreviation: {
     type_1: "Jul",
@@ -79,6 +86,7 @@ const july: IMonth = {
 };
 
 const august: IMonth = {
+  id: 7,
   name: "August",
   abbreviation: {
     type_1: "Aug",
@@ -90,6 +98,7 @@ const august: IMonth = {
 };
 
 const september: IMonth = {
+  id: 8,
   name: "September",
   abbreviation: {
     type_1: "Sep",
@@ -101,6 +110,7 @@ const september: IMonth = {
 };
 
 const october: IMonth = {
+  id: 9,
   name: "October",
   abbreviation: {
     type_1: "Oct",
@@ -112,6 +122,7 @@ const october: IMonth = {
 };
 
 const november: IMonth = {
+  id: 10,
   name: "November",
   abbreviation: {
     type_1: "Nov",
@@ -123,6 +134,7 @@ const november: IMonth = {
 };
 
 const december: IMonth = {
+  id: 11,
   name: "December",
   abbreviation: {
     type_1: "Dec",
@@ -146,14 +158,4 @@ export const MONTHS: IMonth[] = [
   october,
   november,
   december,
-];
-
-export const WEEKS: string[] = [
-  "Sunday",
-  "Monday",
-  "Tuesday",
-  "Wednesday",
-  "Thursday",
-  "Friday",
-  "Saturday",
 ];

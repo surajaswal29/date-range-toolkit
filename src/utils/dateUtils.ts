@@ -39,35 +39,3 @@ export const getWeekNumber = (date: Date): number => {
   const yearStart = new Date(Date.UTC(d.getUTCFullYear(), 0, 1));
   return Math.ceil(((d.getTime() - yearStart.getTime()) / 86400000 + 1) / 7);
 };
-
-/**
- * Gets the quarter (1-4) for a given date
- * @param date - Date to get quarter for
- * @returns Quarter number
- */
-export const getQuarter = (date: Date): number => {
-  return Math.floor(date.getMonth() / 3) + 1;
-};
-
-/**
- * Gets the timezone name
- * @returns Timezone string
- */
-export const getTimezone = (_date: Date): string => {
-  return Intl.DateTimeFormat().resolvedOptions().timeZone;
-};
-
-/**
- * Converts a date from one timezone to another
- * @param date - Date to convert
- * @param fromTimezone - Source timezone (e.g., 'America/New_York')
- * @param toTimezone - Target timezone (e.g., 'Asia/Tokyo')
- * @returns Date object in the target timezone
- */
-export const convertTimezone = (date: Date, fromTimezone: string, toTimezone: string): Date => {
-  const sourceDate = new Date(date.toLocaleString("en-US", { timeZone: fromTimezone }));
-  const targetDate = new Date(date.toLocaleString("en-US", { timeZone: toTimezone }));
-  const timezoneOffset = targetDate.getTime() - sourceDate.getTime();
-
-  return new Date(date.getTime() + timezoneOffset);
-};
