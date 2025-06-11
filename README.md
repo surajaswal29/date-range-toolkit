@@ -91,7 +91,7 @@ pnpm add @date-range/toolkit
 
 The library is optimized for size and performance:
 
-- ESM build (index.js): ~1.83 kB
+- ESM build (index.esm.js): ~1.83 kB
 - CommonJS build (index.cjs): ~1.91 kB
 - IIFE build (index.global.js): ~1.89 kB
 
@@ -203,13 +203,13 @@ app.get('/api/dateranges/last-week', (req, res) => {
 
 ```html
 <!-- Option 1: Load from CDN -->
-<script src="https://unpkg.com/@date-range/toolkit/dist/index.umd.js"></script>
+<script src="https://unpkg.com/@date-range/toolkit/dist/index.global.js"></script>
 
 <!-- Option 2: Load from specific version -->
-<script src="https://unpkg.com/@date-range/toolkit@1.0.0/dist/index.umd.js"></script>
+<script src="https://unpkg.com/@date-range/toolkit@1.0.0/dist/index.global.js"></script>
 
 <!-- Option 3: Load with async/defer -->
-<script async defer src="https://unpkg.com/@date-range/toolkit/dist/index.umd.js"></script>
+<script async defer src="https://unpkg.com/@date-range/toolkit/dist/index.global.js"></script>
 
 <script>
   // Wait for load if using async
@@ -336,20 +336,20 @@ const toolkit = createDateRangeToolkit({
 ```html
 <!-- 1. Load in the <head> with defer for better performance -->
 <head>
-  <script defer src="https://unpkg.com/@date-range/toolkit/dist/index.umd.js"></script>
+  <script defer src="https://unpkg.com/@date-range/toolkit/dist/index.global.js"></script>
 </head>
 
 <!-- 2. Version pinning for stability -->
-<script src="https://unpkg.com/@date-range/toolkit@1.0.0/dist/index.umd.js"></script>
+<script src="https://unpkg.com/@date-range/toolkit@1.0.0/dist/index.global.js"></script>
 
 <!-- 3. Local fallback for offline support -->
 <script>
   function loadDateRangeToolkit() {
     const script = document.createElement('script');
-    script.src = 'https://unpkg.com/@date-range/toolkit/dist/index.umd.js';
+    script.src = 'https://unpkg.com/@date-range/toolkit/dist/index.global.js';
     script.onerror = () => {
       // Fallback to local copy
-      script.src = '/assets/js/date-range-toolkit.umd.js';
+      script.src = '/assets/js/date-range-toolkit.global.js';
     };
     document.head.appendChild(script);
   }

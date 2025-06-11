@@ -4,14 +4,14 @@
   "version": "1.0.0",
   "description": "A lightweight TypeScript library for handling date ranges, providing preset ranges and date-related utilities",
   "main": "./dist/index.cjs",
-  "module": "./dist/index.js",
+  "module": "./dist/index.esm.js",
   "browser": "./dist/index.global.js",
   "types": "./dist/index.d.ts",
   "exports": {
     ".": {
       "types": "./dist/index.d.ts",
       "browser": "./dist/index.global.js",
-      "import": "./dist/index.js",
+      "import": "./dist/index.esm.js",
       "require": "./dist/index.cjs"
     }
   },
@@ -21,7 +21,7 @@
     "LICENSE"
   ],
   "scripts": {
-    "build": "tsup src/index.ts --format cjs,esm,iife --dts --clean --minify --no-sourcemap --treeshake --target=es2018 --global-name DateRangeToolkit",
+    "build": "tsup src/index.ts --format cjs,esm,iife --dts --clean --minify --no-sourcemap --treeshake --target=es2018 --global-name DateRangeToolkit && mv dist/index.mjs dist/index.esm.js && mv dist/index.js dist/index.cjs",
     "test": "jest",
     "lint": "eslint src --ext .ts",
     "lint:fix": "eslint src --ext .ts --fix",
@@ -35,7 +35,7 @@
   },
   "size-limit": [
     {
-      "path": "dist/index.js",
+      "path": "dist/index.esm.js",
       "limit": "7 kB"
     },
     {
