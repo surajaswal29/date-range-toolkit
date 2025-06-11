@@ -30,9 +30,9 @@
 ## 📦 Installation
 
 ```bash
-npm install date-range-toolkit@{version}
+npm install @date-range/toolkit@{version}
 # or
-yarn add date-range-toolkit@{version}
+yarn add @date-range/toolkit@{version}
 ```
 
 ## 🔍 Breaking Changes

@@ -7,19 +7,19 @@ Welcome to Date Range Toolkit! This guide will help you get started with using t
 You can install the package using npm:
 
 ```bash
-npm install date-range-toolkit
+npm install @date-range/toolkit
 ```
 
 Or using yarn:
 
 ```bash
-yarn add date-range-toolkit
+yarn add @date-range/toolkit
 ```
 
 Or using pnpm:
 
 ```bash
-pnpm add date-range-toolkit
+pnpm add @date-range/toolkit
 ```
 
 ## Features
@@ -37,7 +37,7 @@ pnpm add date-range-toolkit
 Import the library in your project:
 
 ```typescript
-import { DateRangeToolkit } from 'date-range-toolkit';
+import { DateRangeToolkit } from '@date-range/toolkit';
 ```
 
 For more detailed examples and usage patterns, check out our other documentation pages:
