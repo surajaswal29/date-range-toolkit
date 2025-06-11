@@ -1,5 +1,6 @@
 {
-  "name": "@date-range/date-range-toolkit"
+  "name": "@date-range/toolkit",
+  "private": false,
   "version": "1.0.0",
   "description": "A lightweight TypeScript library for handling date ranges, providing preset ranges and date-related utilities",
   "main": "dist/index.js",
