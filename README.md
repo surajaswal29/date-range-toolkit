@@ -47,13 +47,25 @@ Date Range Toolkit solves these challenges by providing:
 
 ## ✨ Features
 
-- 🎯 **Preset Date Ranges** - Common ranges like Last 7/30 days, Last Quarter, Year to Date
-- 📊 **Custom Range Support** - Create any date range with full type safety
-- 📅 **Date Utilities** - Month/Week labels and current date information
+- 🎯 **Preset Date Ranges**
+  - Last 7 days
+  - Last 30 days
+  - Last 3 months
+  - Last 6 months
+  - Last 12 months
+- 📊 **Rich Date Information**
+  - Full month details (name, abbreviations in 3 formats, days count, quarter)
+  - Week information (full name, abbreviation)
+  - Date labels with weekend detection
+- 📅 **Comprehensive Date Utilities**
+  - Month information with multiple abbreviation formats (Title Case, UPPERCASE, lowercase)
+  - Week day information with full and short names
+  - Quarter information
+  - Leap year detection
+  - First/Last day of month
 - 💪 **TypeScript First** - Built with TypeScript for excellent type safety and IDE support
 - 🪶 **Zero Dependencies** - Lightweight and efficient
 - 🔒 **Type Safe** - Comprehensive type definitions for all features
-- 🔄 **Easily Extendable** - Create custom instances with different base dates or extend the core functionality
 
 ## 📦 Installation
 
@@ -75,6 +87,297 @@ Using pnpm:
 pnpm add @date-range/toolkit
 ```
 
+## 📊 Bundle Size
+
+The library is optimized for size and performance:
+
+- ESM build (index.js): ~1.83 kB
+- CommonJS build (index.cjs): ~1.91 kB
+- IIFE build (index.global.js): ~1.89 kB
+
+All builds are minified, tree-shakeable, and brotli-compressed for optimal delivery!
+
+## 🔌 Module Format Support
+
+### ESM (ECMAScript Modules)
+
+```javascript
+import { createDateRangeToolkit } from '@date-range/toolkit';
+
+const toolkit = createDateRangeToolkit();
+const last7Days = toolkit.getLast7Days();
+```
+
+### CommonJS
+
+```javascript
+const { createDateRangeToolkit } = require('@date-range/toolkit');
+
+const toolkit = createDateRangeToolkit();
+const last7Days = toolkit.getLast7Days();
+```
+
+### Browser via CDN (Global/IIFE)
+
+```html
+<!-- Add this in your HTML -->
+<script src="https://unpkg.com/@date-range/toolkit/dist/index.global.js"></script>
+
+<script>
+  // The library is available as 'DateRangeToolkit'
+  const toolkit = DateRangeToolkit.createDateRangeToolkit();
+  const last7Days = toolkit.getLast7Days();
+</script>
+```
+
+### TypeScript
+
+```typescript
+import { createDateRangeToolkit, IDateRange } from '@date-range/toolkit';
+
+const toolkit = createDateRangeToolkit();
+const range: IDateRange = toolkit.getLast7Days();
+```
+
+## 📚 Detailed Usage Examples
+
+### ESM in Modern Environments
+
+```javascript
+// Named imports - recommended for tree-shaking
+import { createDateRangeToolkit, formatDate } from '@date-range/toolkit';
+
+// Import specific types (in TypeScript)
+import type { IDateRange, DateRangePreset } from '@date-range/toolkit';
+
+// Example with React and tree-shaking
+import { createDateRangeToolkit, formatDate } from '@date-range/toolkit';
+import { useState, useEffect } from 'react';
+
+function DateRangePicker() {
+  const [range, setRange] = useState(null);
+  const toolkit = createDateRangeToolkit();
+
+  useEffect(() => {
+    // Only the used methods will be included in the bundle
+    const last7Days = toolkit.getLast7Days();
+    const formattedStart = formatDate(last7Days.startDate, 'YYYY-MM-DD');
+    setRange(last7Days);
+  }, []);
+
+  return (
+    <div>
+      <span>Start: {range?.startDate.toISOString()}</span>
+      <span>End: {range?.endDate.toISOString()}</span>
+    </div>
+  );
+}
+```
+
+### CommonJS in Node.js
+
+```javascript
+// Require the entire library
+const DateRangeToolkit = require('@date-range/toolkit');
+
+// Or destructure specific functions
+const { createDateRangeToolkit, formatDate } = require('@date-range/toolkit');
+
+// Example with Express.js
+const express = require('express');
+const { createDateRangeToolkit } = require('@date-range/toolkit');
+
+const app = express();
+const toolkit = createDateRangeToolkit();
+
+app.get('/api/dateranges/last-week', (req, res) => {
+  const range = toolkit.getLast7Days();
+  res.json({
+    startDate: range.startDate.toISOString(),
+    endDate: range.endDate.toISOString(),
+  });
+});
+```
+
+### Browser (UMD) with Different Loading Strategies
+
+```html
+<!-- Option 1: Load from CDN -->
+<script src="https://unpkg.com/@date-range/toolkit/dist/index.umd.js"></script>
+
+<!-- Option 2: Load from specific version -->
+<script src="https://unpkg.com/@date-range/toolkit@1.0.0/dist/index.umd.js"></script>
+
+<!-- Option 3: Load with async/defer -->
+<script async defer src="https://unpkg.com/@date-range/toolkit/dist/index.umd.js"></script>
+
+<script>
+  // Wait for load if using async
+  window.addEventListener('load', () => {
+    const toolkit = DateRangeToolkit.createDateRangeToolkit();
+
+    // Basic usage
+    const last7Days = toolkit.getLast7Days();
+
+    // Update UI
+    document.getElementById('startDate').textContent = last7Days.startDate.toLocaleDateString();
+    document.getElementById('endDate').textContent = last7Days.endDate.toLocaleDateString();
+
+    // Handle user interactions
+    document.getElementById('rangePicker').addEventListener('change', event => {
+      const preset = event.target.value;
+      let range;
+
+      switch (preset) {
+        case '7days':
+          range = toolkit.getLast7Days();
+          break;
+        case '30days':
+          range = toolkit.getLast30Days();
+          break;
+        case 'quarter':
+          range = toolkit.getLastQuarter();
+          break;
+      }
+
+      updateDateDisplay(range);
+    });
+  });
+</script>
+```
+
+### TypeScript with Full Type Safety
+
+```typescript
+import {
+  createDateRangeToolkit,
+  type IDateRange,
+  type DateRangePreset,
+  type DateFormat,
+} from '@date-range/toolkit';
+
+// Create strongly-typed custom preset
+interface CustomDateRange extends IDateRange {
+  label: string;
+  color?: string;
+}
+
+class DateRangeManager {
+  private toolkit = createDateRangeToolkit();
+  private activeRange: IDateRange | null = null;
+
+  constructor(initialDate?: Date | string) {
+    if (initialDate) {
+      this.toolkit = createDateRangeToolkit(initialDate);
+    }
+  }
+
+  public getRange(preset: DateRangePreset): CustomDateRange {
+    let range: IDateRange;
+
+    switch (preset) {
+      case 'LAST_7_DAYS':
+        range = this.toolkit.getLast7Days();
+        return { ...range, label: 'Last 7 Days', color: '#007bff' };
+      case 'LAST_30_DAYS':
+        range = this.toolkit.getLast30Days();
+        return { ...range, label: 'Last 30 Days', color: '#28a745' };
+      default:
+        throw new Error(`Unsupported preset: ${preset}`);
+    }
+  }
+
+  public setCustomRange(startDate: Date, endDate: Date): void {
+    this.activeRange = this.toolkit.getCustomRange(startDate, endDate);
+  }
+}
+```
+
+## 🌟 Best Practices for Different Environments
+
+### Modern Web Applications (React, Vue, Angular)
+
+```typescript
+// 1. Use named imports for better tree-shaking
+import { createDateRangeToolkit } from '@date-range/toolkit';
+
+// 2. Create a singleton instance if used across components
+// dateService.ts
+export const dateToolkit = createDateRangeToolkit();
+
+// 3. Use in components
+import { dateToolkit } from './dateService';
+import type { IDateRange } from '@date-range/toolkit';
+
+function MyComponent() {
+  const range: IDateRange = dateToolkit.getLast7Days();
+  // ...
+}
+```
+
+### Node.js Applications
+
+```javascript
+// 1. Use CommonJS require at the top level
+const { createDateRangeToolkit } = require('@date-range/toolkit');
+
+// 2. Initialize once and reuse
+const toolkit = createDateRangeToolkit();
+module.exports = toolkit;
+
+// 3. Handle timezone considerations
+const toolkit = createDateRangeToolkit({
+  timezone: 'UTC', // if working with specific timezone
+});
+```
+
+### Browser Applications
+
+```html
+<!-- 1. Load in the <head> with defer for better performance -->
+<head>
+  <script defer src="https://unpkg.com/@date-range/toolkit/dist/index.umd.js"></script>
+</head>
+
+<!-- 2. Version pinning for stability -->
+<script src="https://unpkg.com/@date-range/toolkit@1.0.0/dist/index.umd.js"></script>
+
+<!-- 3. Local fallback for offline support -->
+<script>
+  function loadDateRangeToolkit() {
+    const script = document.createElement('script');
+    script.src = 'https://unpkg.com/@date-range/toolkit/dist/index.umd.js';
+    script.onerror = () => {
+      // Fallback to local copy
+      script.src = '/assets/js/date-range-toolkit.umd.js';
+    };
+    document.head.appendChild(script);
+  }
+</script>
+```
+
+### Build Tools (Webpack, Rollup, Vite)
+
+```javascript
+// webpack.config.js
+module.exports = {
+  // ... other config
+  resolve: {
+    mainFields: ['module', 'main'], // Prefer ESM version
+  },
+  optimization: {
+    usedExports: true, // Enable tree-shaking
+  },
+};
+
+// vite.config.js
+export default {
+  optimizeDeps: {
+    include: ['@date-range/toolkit'], // Pre-bundle for better performance
+  },
+};
+```
+
 ## 🚀 Quick Start
 
 ```typescript
@@ -83,148 +386,205 @@ import { createDateRangeToolkit } from '@date-range/toolkit';
 // Create a toolkit instance
 const toolkit = createDateRangeToolkit();
 
-// Or create an instance with a specific base date
-const customToolkit = createDateRangeToolkit('2024-01-01');
-
 // Get a preset range
 const last7Days = toolkit.getLast7Days();
 console.log(last7Days);
-// Output: { startDate: Date, endDate: Date }
+/* Output:
+{
+  startDate: Date,
+  endDate: Date,
+  rangeLabel: "Last 7 days",
+  labels: [
+    {
+      label: "1 Jan",
+      date: "2024-01-01",
+      dayName: "Monday",
+      dayAbbrev: "Mon",
+      monthName: "January",
+      monthAbbrev: "Jan",
+      isoDate: "2024-01-01",
+      isWeekend: false
+    },
+    // ... more dates
+  ]
+}
+*/
 
-// Create a custom range
-const customRange = toolkit.getCustomRange(new Date('2024-01-01'), new Date('2024-12-31'));
+// Get month information
+const months = toolkit.getMonths();
+/* Output example:
+{
+  id: 1,
+  name: "January",
+  abbreviation: {
+    type_1: "Jan",  // Title Case
+    type_2: "JAN",  // UPPERCASE
+    type_3: "jan"   // lowercase
+  },
+  daysInMonth: 31,
+  quarter: 1
+}
+*/
+
+// Get week information
+const weeks = toolkit.getWeeks();
+/* Output example:
+{
+  id: 0,
+  name: "Sunday",
+  shortName: "Sun"
+}
+*/
+
+// Get detailed date information
+const dateInfo = toolkit.getDateInfo(new Date());
+/* Output:
+{
+  year: 2024,
+  month: "01",
+  dayOfWeek: "Monday",
+  dayOfMonth: 1,
+  monthLength: 31,
+  monthName: "January",
+  monthAbbreviation: {
+    type_1: "Jan",
+    type_2: "JAN",
+    type_3: "jan"
+  },
+  quarter: 1,
+  firstDayOfMonth: Date,
+  lastDayOfMonth: Date,
+  isLeapYear: true,
+  totalWeeksInMonth: 5
+}
+*/
 ```
 
 ## 📘 Usage Examples
 
-### Basic Usage
+### Working with Preset Ranges
 
 ```typescript
 import { createDateRangeToolkit } from '@date-range/toolkit';
 
 const toolkit = createDateRangeToolkit();
 
-// Get common preset ranges
+// Available preset ranges
+const last7Days = toolkit.getLast7Days();
 const last30Days = toolkit.getLast30Days();
-const lastQuarter = toolkit.getLastQuarter();
-const yearToDate = toolkit.getYearToDate();
+const last3Months = toolkit.getLast3Months();
+const last6Months = toolkit.getLast6Months();
+const last12Months = toolkit.getLast12Months();
 
-// Get all available presets
-const presets = toolkit.getPresets();
-// Returns: Array of { label: string, range: IDateRange }
+// Each range includes:
+console.log(last7Days);
+/*
+{
+  startDate: Date,
+  endDate: Date,
+  rangeLabel: "Last 7 days",
+  labels: [
+    {
+      label: "1 Jan",
+      date: Date,
+      dayName: "Monday",
+      dayAbbrev: "Mon",
+      monthName: "January",
+      monthAbbrev: "Jan",
+      isoDate: "2024-01-01",
+      isWeekend: false
+    },
+    // ... more dates
+  ]
+}
+*/
 ```
 
-### Working with Different Base Dates
-
-```typescript
-import { createDateRangeToolkit } from '@date-range/toolkit';
-
-// Create instances with different base dates
-const currentToolkit = createDateRangeToolkit(); // Uses current date
-const customToolkit = createDateRangeToolkit('2023-12-31'); // Uses end of 2023
-const timestampToolkit = createDateRangeToolkit(1704067200000); // Uses timestamp
-
-// Compare ranges from different base dates
-const currentLast7Days = currentToolkit.getLast7Days();
-const customLast7Days = customToolkit.getLast7Days();
-```
-
-### Working with Labels
+### Working with Month Information
 
 ```typescript
 import { createDateRangeToolkit } from '@date-range/toolkit';
 
 const toolkit = createDateRangeToolkit();
 
-// Get month information
+// Get months for current year
 const months = toolkit.getMonths();
-// Returns: Array of { id: number, name: string, shortName: string }
-// Example: { id: 1, name: "January", shortName: "Jan" }
+
+// Get months for specific year (handles leap years)
+const months2024 = toolkit.getMonths(2024);
+
+// Month information includes:
+console.log(months[0]);
+/*
+{
+  id: 1,
+  name: "January",
+  abbreviation: {
+    type_1: "Jan",  // Title Case
+    type_2: "JAN",  // UPPERCASE
+    type_3: "jan"   // lowercase
+  },
+  daysInMonth: 31,
+  quarter: 1
+}
+*/
+```
+
+### Working with Week Information
+
+```typescript
+import { createDateRangeToolkit } from '@date-range/toolkit';
+
+const toolkit = createDateRangeToolkit();
 
 // Get week information
 const weeks = toolkit.getWeeks();
-// Returns: Array of { id: number, name: string, shortName: string }
-// Example: { id: 1, name: "Monday", shortName: "Mon" }
+
+console.log(weeks);
+/*
+[
+  { id: 0, name: "Sunday", shortName: "Sun" },
+  { id: 1, name: "Monday", shortName: "Mon" },
+  { id: 2, name: "Tuesday", shortName: "Tue" },
+  { id: 3, name: "Wednesday", shortName: "Wed" },
+  { id: 4, name: "Thursday", shortName: "Thu" },
+  { id: 5, name: "Friday", shortName: "Fri" },
+  { id: 6, name: "Saturday", shortName: "Sat" }
+]
+*/
 ```
 
-### Current Date Information
+### Getting Detailed Date Information
 
 ```typescript
 import { createDateRangeToolkit } from '@date-range/toolkit';
 
 const toolkit = createDateRangeToolkit();
 
-const currentInfo = toolkit.getCurrentDateInfo();
-// Returns: {
-//   date: Date,
-//   dayOfWeek: number,
-//   dayOfMonth: number,
-//   month: number,
-//   year: number,
-//   quarter: number
-// }
-```
+// Get comprehensive information about a date
+const dateInfo = toolkit.getDateInfo(new Date());
 
-### React Integration Example
-
-```typescript
-import { createDateRangeToolkit } from "@date-range/toolkit";
-import { useState } from "react";
-
-function DateRangePicker() {
-  const toolkit = createDateRangeToolkit();
-  const [dateRange, setDateRange] = useState(toolkit.getLast7Days());
-
-  const handlePresetClick = (preset: string) => {
-    switch (preset) {
-      case "7days":
-        setDateRange(toolkit.getLast7Days());
-        break;
-      case "30days":
-        setDateRange(toolkit.getLast30Days());
-        break;
-      case "quarter":
-        setDateRange(toolkit.getLastQuarter());
-        break;
-      // ... other cases
-    }
-  };
-
-  return (
-    <div>
-      <button onClick={() => handlePresetClick("7days")}>Last 7 Days</button>
-      <button onClick={() => handlePresetClick("30days")}>Last 30 Days</button>
-      {/* ... other UI elements */}
-    </div>
-  );
+console.log(dateInfo);
+/*
+{
+  year: 2024,
+  month: "01",
+  dayOfWeek: "Monday",
+  dayOfMonth: 1,
+  monthLength: 31,
+  monthName: "January",
+  monthAbbreviation: {
+    type_1: "Jan",
+    type_2: "JAN",
+    type_3: "jan"
+  },
+  quarter: 1,
+  firstDayOfMonth: Date,
+  lastDayOfMonth: Date,
+  isLeapYear: true,
+  totalWeeksInMonth: 5
 }
-```
-
-### Extending Functionality
-
-```typescript
-import { DateRangeToolkit } from '@date-range/toolkit';
-
-class CustomDateRangeToolkit extends DateRangeToolkit {
-  // Add custom methods
-  getLast14Days() {
-    const endDate = this.getCurrentDate();
-    const startDate = new Date(endDate);
-    startDate.setDate(startDate.getDate() - 14);
-    return { startDate, endDate };
-  }
-
-  // Override existing methods
-  getLast7Days() {
-    const range = super.getLast7Days();
-    // Add custom logic here
-    return range;
-  }
-}
-
-// Use your custom toolkit
-const customToolkit = new CustomDateRangeToolkit();
-const last14Days = customToolkit.getLast14Days();
+*/
 ```
 
 ## 📚 API Reference

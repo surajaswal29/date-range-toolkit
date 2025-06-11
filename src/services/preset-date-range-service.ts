@@ -5,16 +5,16 @@ import { IDateLabel, IDateRange, IRangePreset } from '../types';
 
 export class PresetDateRangeService {
   private date: Date;
-  private months: ReturnType<typeof getMonthsForYear>;
+  private months = getMonthsForYear(new Date().getFullYear());
 
   constructor(date?: Date) {
     this.date = date || new Date();
-    this.months = getMonthsForYear(this.date.getFullYear());
+    if (this.date.getFullYear() !== new Date().getFullYear()) {
+      this.months = getMonthsForYear(this.date.getFullYear());
+    }
   }
 
-  public getRangePresets(): IRangePreset[] {
-    return RANGE_PRESETS;
-  }
+  public getRangePresets = () => RANGE_PRESETS;
 
   /**
    * Creates date labels for a given date range
@@ -22,31 +22,25 @@ export class PresetDateRangeService {
   private createDateLabels(fromDate: Date, toDate: Date): IDateLabel[] {
     const labels: IDateLabel[] = [];
     const currentDate = new Date(fromDate);
+    const MS_PER_DAY = 86400000;
 
     while (currentDate <= toDate) {
       const dayOfWeek = currentDate.getDay();
-      const isWeekend = dayOfWeek === 0 || dayOfWeek === 6;
-      const currentYear = currentDate.getFullYear();
-
-      // Get months for the current year if it's different from the instance year
-      if (currentYear !== this.date.getFullYear()) {
-        this.months = getMonthsForYear(currentYear);
-      }
-
       const month = this.months[currentDate.getMonth()];
+      const week = WEEKS[dayOfWeek];
 
       labels.push({
         label: `${currentDate.getDate()} ${month.name}`,
         date: new Date(currentDate),
-        dayName: WEEKS[dayOfWeek].name,
-        dayAbbrev: WEEKS[dayOfWeek].shortName,
+        dayName: week.name,
+        dayAbbrev: week.shortName,
         monthName: month.name,
         monthAbbrev: month.abbreviation.type_1,
         isoDate: currentDate.toISOString().split('T')[0],
-        isWeekend,
+        isWeekend: dayOfWeek === 0 || dayOfWeek === 6,
       });
 
-      currentDate.setDate(currentDate.getDate() + 1);
+      currentDate.setTime(currentDate.getTime() + MS_PER_DAY);
     }
 
     return labels;
@@ -56,11 +50,10 @@ export class PresetDateRangeService {
    * Calculates date range information for a given start and end date
    */
   private calculateDateRangeInfo(fromDate: Date, toDate: Date, rangeLabel: string): IDateRange {
-    const labels = this.createDateLabels(fromDate, toDate);
     return {
       startDate: fromDate,
       endDate: toDate,
-      labels: labels,
+      labels: this.createDateLabels(fromDate, toDate),
       rangeLabel,
     };
   }
@@ -72,8 +65,7 @@ export class PresetDateRangeService {
    */
   public getLastNDays(days: number, customLabel?: string): IDateRange {
     const toDate = new Date(this.date);
-    const fromDate = new Date(toDate);
-    fromDate.setTime(toDate.getTime() - (days - 1) * 24 * 60 * 60 * 1000);
+    const fromDate = new Date(toDate.getTime() - (days - 1) * 86400000);
     return this.calculateDateRangeInfo(fromDate, toDate, customLabel || `Last ${days} days`);
   }
 
@@ -95,14 +87,9 @@ export class PresetDateRangeService {
    * @param customLabel Optional custom label for the range
    */
   public getPresetRange(preset: IRangePreset, customLabel?: string): IDateRange {
-    switch (preset.unit) {
-      case 'day':
-        return this.getLastNDays(preset.value, customLabel || preset.label);
-      case 'month':
-        return this.getLastNMonths(preset.value, customLabel || preset.label);
-      default:
-        throw new Error(`Unsupported preset unit: ${preset.unit}`);
-    }
+    return preset.unit === 'day'
+      ? this.getLastNDays(preset.value, customLabel || preset.label)
+      : this.getLastNMonths(preset.value, customLabel || preset.label);
   }
 
   /**
@@ -112,9 +99,7 @@ export class PresetDateRangeService {
    */
   public getRangeByPresetLabel(label: string, customLabel?: string): IDateRange {
     const preset = RANGE_PRESETS.find(p => p.label === label);
-    if (!preset) {
-      throw new Error(`Preset not found: ${label}`);
-    }
+    if (!preset) throw new Error(`Preset not found: ${label}`);
     return this.getPresetRange(preset, customLabel);
   }
 

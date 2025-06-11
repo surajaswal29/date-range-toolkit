@@ -1,6 +1,3 @@
-#!/usr/bin/env sh
-. "$(dirname -- "$0")/_/husky.sh"
-
 # Run lint-staged to check staged files
 echo "🔍 Running pre-commit checks..."
 if ! npx lint-staged; then
