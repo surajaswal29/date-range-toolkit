@@ -1,5 +1,5 @@
 {
-  "name": "@date-range/toolkit",
+  "name": "date-range-tk",
   "private": false,
   "version": "1.0.0",
   "description": "A lightweight TypeScript library for handling date ranges, providing preset ranges and date-related utilities",
@@ -65,7 +65,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/surajaswal29/date-range-toolkit.git"
+    "url": "git+https://github.com/surajaswal29/date-range-toolkit.git"
   },
   "bugs": {
     "url": "https://github.com/surajaswal29/date-range-toolkit/issues"

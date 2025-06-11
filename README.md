@@ -1,11 +1,11 @@
 # 📅 Date Range Toolkit
 
 [![CI](https://github.com/surajaswal29/date-range-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/surajaswal29/date-range-toolkit/actions/workflows/ci.yml)
-[![npm version](https://badge.fury.io/js/date-range-toolkit.svg)](https://badge.fury.io/js/@date-range/toolkit)
+[![npm version](https://badge.fury.io/js/date-range-tk.svg)](https://badge.fury.io/js/date-range-tk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
-[![npm downloads](https://img.shields.io/npm/dm/date-range-toolkit.svg)](https://www.npmjs.com/package/date-range-toolkit)
-[![Bundle Size](https://img.shields.io/bundlephobia/minzip/date-range-toolkit)](https://bundlephobia.com/package/date-range-toolkit)
+[![npm downloads](https://img.shields.io/npm/dm/date-range-tk.svg)](https://www.npmjs.com/package/date-range-tk)
+[![Bundle Size](https://img.shields.io/bundlephobia/minzip/date-range-tk)](https://bundlephobia.com/package/date-range-tk)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
 [![codecov](https://codecov.io/gh/surajaswal29/date-range-toolkit/branch/main/graph/badge.svg)](https://codecov.io/gh/surajaswal29/date-range-toolkit)
 
@@ -72,19 +72,19 @@ Date Range Toolkit solves these challenges by providing:
 Using npm:
 
 ```bash
-npm install @date-range/toolkit
+npm install date-range-tk
 ```
 
 Using yarn:
 
 ```bash
-yarn add @date-range/toolkit
+yarn add date-range-tk
 ```
 
 Using pnpm:
 
 ```bash
-pnpm add @date-range/toolkit
+pnpm add date-range-tk
 ```
 
 ## 📊 Bundle Size

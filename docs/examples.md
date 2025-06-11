@@ -16,7 +16,7 @@ This page provides practical examples of using Date Range Toolkit in various sce
 ### Initialize the Library
 
 ```typescript
-import { DateRangeToolkit } from '@date-range/toolkit';
+import { DateRangeToolkit } from 'date-range-tk';
 
 const dateRange = new DateRangeToolkit();
 ```
@@ -141,7 +141,7 @@ console.log(businessDays);
 
 ```typescript
 import React, { useState } from 'react';
-import { DateRangeToolkit } from '@date-range/toolkit';
+import { DateRangeToolkit } from 'date-range-tk';
 
 const DateRangePicker: React.FC = () => {
   const dateRange = new DateRangeToolkit();
@@ -197,7 +197,7 @@ export default DateRangePicker;
 
 <script lang="ts">
 import { defineComponent, ref } from 'vue';
-import { DateRangeToolkit } from '@date-range/toolkit';
+import { DateRangeToolkit } from 'date-range-tk';
 
 export default defineComponent({
   setup() {
