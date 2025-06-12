@@ -44,5 +44,5 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 - Comprehensive documentation
 - Unit tests and CI/CD pipeline
 
-[unreleased]: https://github.com/surajaswal29/date-range-toolkit/compare/v1.0.0...HEAD
-[1.0.0]: https://github.com/surajaswal29/date-range-toolkit/releases/tag/v1.0.0
+[unreleased]: https://github.com/surajaswal29/date-range-tk/compare/v1.0.0...HEAD
+[1.0.0]: https://github.com/surajaswal29/date-range-tk/releases/tag/v1.0.0

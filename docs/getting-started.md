@@ -47,8 +47,8 @@ For more detailed examples and usage patterns, check out our other documentation
 
 ## Support
 
-- GitHub Issues: [Report a bug](https://github.com/surajaswal29/date-range-toolkit/issues)
-- GitHub Discussions: [Start a discussion](https://github.com/surajaswal29/date-range-toolkit/discussions)
+- GitHub Issues: [Report a bug](https://github.com/surajaswal29/date-range-tk/issues)
+- GitHub Discussions: [Start a discussion](https://github.com/surajaswal29/date-range-tk/discussions)
 
 ## Contributing
 

@@ -1,12 +1,12 @@
 repository:
   # The name of the repository
-  name: date-range-toolkit
+  name: date-range-tk
 
   # A short description of the repository
   description: A powerful and flexible date range manipulation toolkit for JavaScript/TypeScript applications
 
   # A URL with more information about the repository
-  homepage: https://github.com/surajaswal29/date-range-toolkit
+  homepage: https://github.com/surajaswal29/date-range-tk
 
   # Topics to categorize your repository
   topics:

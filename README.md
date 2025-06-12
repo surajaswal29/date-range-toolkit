@@ -1,13 +1,13 @@
 # 📅 Date Range Toolkit
 
-[![CI](https://github.com/surajaswal29/date-range-toolkit/actions/workflows/ci.yml/badge.svg)](https://github.com/surajaswal29/date-range-toolkit/actions/workflows/ci.yml)
+[![CI](https://github.com/surajaswal29/date-range-tk/actions/workflows/ci.yml/badge.svg)](https://github.com/surajaswal29/date-range-tk/actions/workflows/ci.yml)
 [![npm version](https://badge.fury.io/js/date-range-tk.svg)](https://badge.fury.io/js/date-range-tk)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](https://opensource.org/licenses/MIT)
 [![TypeScript](https://img.shields.io/badge/TypeScript-Ready-blue.svg)](https://www.typescriptlang.org/)
 [![npm downloads](https://img.shields.io/npm/dm/date-range-tk.svg)](https://www.npmjs.com/package/date-range-tk)
 [![Bundle Size](https://img.shields.io/bundlephobia/minzip/date-range-tk)](https://bundlephobia.com/package/date-range-tk)
 [![PRs Welcome](https://img.shields.io/badge/PRs-welcome-brightgreen.svg)](https://makeapullrequest.com)
-[![codecov](https://codecov.io/gh/surajaswal29/date-range-toolkit/branch/main/graph/badge.svg)](https://codecov.io/gh/surajaswal29/date-range-toolkit)
+[![codecov](https://codecov.io/gh/surajaswal29/date-range-tk/branch/main/graph/badge.svg)](https://codecov.io/gh/surajaswal29/date-range-tk)
 
 A lightweight, zero-dependency TypeScript library for effortlessly managing date ranges in your applications. Whether you need preset ranges like "Last 7 Days" or custom date ranges with full TypeScript support, Date Range Toolkit has got you covered.
 
@@ -102,7 +102,7 @@ All builds are minified, tree-shakeable, and brotli-compressed for optimal deliv
 ### ESM (ECMAScript Modules)
 
 ```javascript
-import { createDateRangeToolkit } from '@date-range/toolkit';
+import { createDateRangeToolkit } from 'date-range-tk';
 
 const toolkit = createDateRangeToolkit();
 const last7Days = toolkit.getLast7Days();
@@ -111,7 +111,7 @@ const last7Days = toolkit.getLast7Days();
 ### CommonJS
 
 ```javascript
-const { createDateRangeToolkit } = require('@date-range/toolkit');
+const { createDateRangeToolkit } = require('date-range-tk');
 
 const toolkit = createDateRangeToolkit();
 const last7Days = toolkit.getLast7Days();
@@ -121,7 +121,7 @@ const last7Days = toolkit.getLast7Days();
 
 ```html
 <!-- Add this in your HTML -->
-<script src="https://unpkg.com/@date-range/toolkit/dist/index.global.js"></script>
+<script src="https://unpkg.com/date-range-tk/dist/index.global.js"></script>
 
 <script>
   // The library is available as 'DateRangeToolkit'
@@ -133,7 +133,7 @@ const last7Days = toolkit.getLast7Days();
 ### TypeScript
 
 ```typescript
-import { createDateRangeToolkit, IDateRange } from '@date-range/toolkit';
+import { createDateRangeToolkit, IDateRange } from 'date-range-tk';
 
 const toolkit = createDateRangeToolkit();
 const range: IDateRange = toolkit.getLast7Days();
@@ -145,13 +145,13 @@ const range: IDateRange = toolkit.getLast7Days();
 
 ```javascript
 // Named imports - recommended for tree-shaking
-import { createDateRangeToolkit, formatDate } from '@date-range/toolkit';
+import { createDateRangeToolkit, formatDate } from 'date-range-tk';
 
 // Import specific types (in TypeScript)
-import type { IDateRange, DateRangePreset } from '@date-range/toolkit';
+import type { IDateRange, DateRangePreset } from 'date-range-tk';
 
 // Example with React and tree-shaking
-import { createDateRangeToolkit, formatDate } from '@date-range/toolkit';
+import { createDateRangeToolkit, formatDate } from 'date-range-tk';
 import { useState, useEffect } from 'react';
 
 function DateRangePicker() {
@@ -178,14 +178,14 @@ function DateRangePicker() {
 
 ```javascript
 // Require the entire library
-const DateRangeToolkit = require('@date-range/toolkit');
+const DateRangeToolkit = require('date-range-tk');
 
 // Or destructure specific functions
-const { createDateRangeToolkit, formatDate } = require('@date-range/toolkit');
+const { createDateRangeToolkit, formatDate } = require('date-range-tk');
 
 // Example with Express.js
 const express = require('express');
-const { createDateRangeToolkit } = require('@date-range/toolkit');
+const { createDateRangeToolkit } = require('date-range-tk');
 
 const app = express();
 const toolkit = createDateRangeToolkit();
@@ -203,13 +203,13 @@ app.get('/api/dateranges/last-week', (req, res) => {
 
 ```html
 <!-- Option 1: Load from CDN -->
-<script src="https://unpkg.com/@date-range/toolkit/dist/index.global.js"></script>
+<script src="https://unpkg.com/date-range-tk/dist/index.global.js"></script>
 
 <!-- Option 2: Load from specific version -->
-<script src="https://unpkg.com/@date-range/toolkit@1.0.0/dist/index.global.js"></script>
+<script src="https://unpkg.com/date-range-tk@1.0.0/dist/index.global.js"></script>
 
 <!-- Option 3: Load with async/defer -->
-<script async defer src="https://unpkg.com/@date-range/toolkit/dist/index.global.js"></script>
+<script async defer src="https://unpkg.com/date-range-tk/dist/index.global.js"></script>
 
 <script>
   // Wait for load if using async
@@ -254,7 +254,7 @@ import {
   type IDateRange,
   type DateRangePreset,
   type DateFormat,
-} from '@date-range/toolkit';
+} from 'date-range-tk';
 
 // Create strongly-typed custom preset
 interface CustomDateRange extends IDateRange {
@@ -299,7 +299,7 @@ class DateRangeManager {
 
 ```typescript
 // 1. Use named imports for better tree-shaking
-import { createDateRangeToolkit } from '@date-range/toolkit';
+import { createDateRangeToolkit } from 'date-range-tk';
 
 // 2. Create a singleton instance if used across components
 // dateService.ts
@@ -307,7 +307,7 @@ export const dateToolkit = createDateRangeToolkit();
 
 // 3. Use in components
 import { dateToolkit } from './dateService';
-import type { IDateRange } from '@date-range/toolkit';
+import type { IDateRange } from 'date-range-tk';
 
 function MyComponent() {
   const range: IDateRange = dateToolkit.getLast7Days();
@@ -319,7 +319,7 @@ function MyComponent() {
 
 ```javascript
 // 1. Use CommonJS require at the top level
-const { createDateRangeToolkit } = require('@date-range/toolkit');
+const { createDateRangeToolkit } = require('date-range-tk');
 
 // 2. Initialize once and reuse
 const toolkit = createDateRangeToolkit();
@@ -336,20 +336,20 @@ const toolkit = createDateRangeToolkit({
 ```html
 <!-- 1. Load in the <head> with defer for better performance -->
 <head>
-  <script defer src="https://unpkg.com/@date-range/toolkit/dist/index.global.js"></script>
+  <script defer src="https://unpkg.com/date-range-tk/dist/index.global.js"></script>
 </head>
 
 <!-- 2. Version pinning for stability -->
-<script src="https://unpkg.com/@date-range/toolkit@1.0.0/dist/index.global.js"></script>
+<script src="https://unpkg.com/date-range-tk@1.0.0/dist/index.global.js"></script>
 
 <!-- 3. Local fallback for offline support -->
 <script>
   function loadDateRangeToolkit() {
     const script = document.createElement('script');
-    script.src = 'https://unpkg.com/@date-range/toolkit/dist/index.global.js';
+    script.src = 'https://unpkg.com/date-range-tk/dist/index.global.js';
     script.onerror = () => {
       // Fallback to local copy
-      script.src = '/assets/js/date-range-toolkit.global.js';
+      script.src = '/assets/js/date-range-tk.global.js';
     };
     document.head.appendChild(script);
   }
@@ -373,7 +373,7 @@ module.exports = {
 // vite.config.js
 export default {
   optimizeDeps: {
-    include: ['@date-range/toolkit'], // Pre-bundle for better performance
+    include: ['date-range-tk'], // Pre-bundle for better performance
   },
 };
 ```
@@ -381,7 +381,7 @@ export default {
 ## 🚀 Quick Start
 
 ```typescript
-import { createDateRangeToolkit } from '@date-range/toolkit';
+import { createDateRangeToolkit } from 'date-range-tk';
 
 // Create a toolkit instance
 const toolkit = createDateRangeToolkit();
@@ -465,7 +465,7 @@ const dateInfo = toolkit.getDateInfo(new Date());
 ### Working with Preset Ranges
 
 ```typescript
-import { createDateRangeToolkit } from '@date-range/toolkit';
+import { createDateRangeToolkit } from 'date-range-tk';
 
 const toolkit = createDateRangeToolkit();
 
@@ -503,7 +503,7 @@ console.log(last7Days);
 ### Working with Month Information
 
 ```typescript
-import { createDateRangeToolkit } from '@date-range/toolkit';
+import { createDateRangeToolkit } from 'date-range-tk';
 
 const toolkit = createDateRangeToolkit();
 
@@ -533,7 +533,7 @@ console.log(months[0]);
 ### Working with Week Information
 
 ```typescript
-import { createDateRangeToolkit } from '@date-range/toolkit';
+import { createDateRangeToolkit } from 'date-range-tk';
 
 const toolkit = createDateRangeToolkit();
 
@@ -557,7 +557,7 @@ console.log(weeks);
 ### Getting Detailed Date Information
 
 ```typescript
-import { createDateRangeToolkit } from '@date-range/toolkit';
+import { createDateRangeToolkit } from 'date-range-tk';
 
 const toolkit = createDateRangeToolkit();
 
@@ -663,14 +663,14 @@ Special thanks to all our contributors and the open source community.
 
 ## 🔗 Links
 
-- [NPM Package](https://www.npmjs.com/package/@date-range/toolkit)
-- [GitHub Repository](https://github.com/surajaswal29/date-range-toolkit)
-- [Issue Tracker](https://github.com/surajaswal29/date-range-toolkit/issues)
-- [Wiki](https://github.com/surajaswal29/date-range-toolkit/wiki)
+- [NPM Package](https://www.npmjs.com/package/date-range-tk)
+- [GitHub Repository](https://github.com/surajaswal29/date-range-tk)
+- [Issue Tracker](https://github.com/surajaswal29/date-range-tk/issues)
+- [Wiki](https://github.com/surajaswal29/date-range-tk/wiki)
 
 ## 📈 Stats
 
-![GitHub stars](https://img.shields.io/github/stars/surajaswal29/date-range-toolkit?style=social)
-![GitHub forks](https://img.shields.io/github/forks/surajaswal29/date-range-toolkit?style=social)
-![GitHub issues](https://img.shields.io/github/issues/surajaswal29/date-range-toolkit)
-![GitHub pull requests](https://img.shields.io/github/issues-pr/surajaswal29/date-range-toolkit)
+![GitHub stars](https://img.shields.io/github/stars/surajaswal29/date-range-tk?style=social)
+![GitHub forks](https://img.shields.io/github/forks/surajaswal29/date-range-tk?style=social)
+![GitHub issues](https://img.shields.io/github/issues/surajaswal29/date-range-tk)
+![GitHub pull requests](https://img.shields.io/github/issues-pr/surajaswal29/date-range-tk)

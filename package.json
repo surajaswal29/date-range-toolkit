@@ -65,12 +65,12 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/surajaswal29/date-range-toolkit.git"
+    "url": "git+https://github.com/surajaswal29/date-range-tk.git"
   },
   "bugs": {
-    "url": "https://github.com/surajaswal29/date-range-toolkit/issues"
+    "url": "https://github.com/surajaswal29/date-range-tk/issues"
   },
-  "homepage": "https://github.com/surajaswal29/date-range-toolkit#readme",
+  "homepage": "https://github.com/surajaswal29/date-range-tk#readme",
   "license": "MIT",
   "devDependencies": {
     "@commitlint/config-conventional": "^19.8.1",
